@@ -1,45 +1,3 @@
-export function injectXHR(resp, url) {
-  let ytDataArr = resp.part || resp.response.parts || resp.response;
-  ytDataArr = ytDataArr instanceof Array ? ytDataArr : [ytDataArr];
-
-  ytDataArr.forEach((obj) => {
-    if (Object.prototype.hasOwnProperty.call(obj, "player")) {
-      try {
-        const player_resp = getObjectByPath(obj.player, "args.player_response");
-        obj.player.args.raw_player_response = JSON.parse(player_resp);
-      } catch (e) {}
-      ObjectFilter(obj.player, this.filterRulesYtPlayer);
-    }
-
-    if (Object.prototype.hasOwnProperty.call(obj, "playerResponse")) {
-      ObjectFilter(obj.playerResponse, this.filterRulesYtPlayer);
-    }
-
-    if (
-      Object.prototype.hasOwnProperty.call(obj, "contents") ||
-      Object.prototype.hasOwnProperty.call(obj, "data")
-    ) {
-      let rules;
-      let postActions = [];
-      switch (url.pathname) {
-        case "/guide_ajax":
-          rules = this.filterRulesGuide;
-          break;
-        case "/comment_service_ajax":
-        case "/live_chat/get_live_chat":
-          rules = this.filterRulesCmnts;
-          break;
-        case "/watch":
-          postActions = [removeRvs, fixAutoplay];
-          if (this.currentBlock) postActions.push(redirectToNext);
-        default:
-          rules = this.filterRulesMain;
-      }
-      ObjectFilter(obj.contents || obj.data, rules, postActions, true);
-    }
-  }, this);
-}
-
 export function injectFetch(resp, url) {
   if (
     [
@@ -66,21 +24,6 @@ export function listenToMessagesFromNative() {
         this.storageData = compileAll(this.storageData);
         transformToRegExp(this.storageData);
       }
-      if (type === "loadEnd") {
-        let videos = document.getElementsByTagName(
-          "ytm-video-with-context-renderer"
-        );
-        videos = Array.from(videos).map((video) => ({
-          videoWithContextRenderer: video.data,
-        }));
-        const postActions = [removeRvs, fixAutoplay];
-        ObjectFilter(
-          videos,
-          this.filterRulesMain,
-          this.currentBlock ? postActions.concat(redirectToNext) : postActions,
-          true
-        );
-      }
     },
     true
   );
@@ -103,16 +46,15 @@ export function main() {
       },
     },
   });
-  startInterceptXHR({
-    //whiteList: ["/results", "/playlist", "/c", "/channel", "/feed/trending"],
-    whiteList: "*",
-    interceptor: {
-      response: function (response, url) {
-        injectXHR(response, url);
-        return response;
-      },
-    },
-  });
+
+  window.addEventListener("state-navigateend", (e) =>
+    ObjectFilter(
+      e.detail.data.response.response,
+      this.filterRulesMain,
+      [],
+      true
+    )
+  );
 
   window.postMessage("youblock ready");
 }
