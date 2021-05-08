@@ -163,6 +163,37 @@ export function redirectToIndex() {
   throw 0;
 }
 
+export function parseVideoDetails(video) {
+  const shortBylineText = video.shortBylineText.runs[0];
+  const data = {
+    id: video.videoId,
+    title: video.headline.runs[0].text,
+    thumbnail: `https://i.ytimg.com/vi/${video.videoId}/mqdefault.jpg`,
+    publishedTime: video.publishedTimeText
+      ? video.publishedTimeText.runs[0].text
+      : "LIVE",
+    owner: JSON.stringify({
+      name: shortBylineText.text,
+      id: shortBylineText.navigationEndpoint.browseEndpoint.browseId,
+      username:
+        shortBylineText.navigationEndpoint.browseEndpoint.canonicalBaseUrl,
+      thumbnail: video.channelThumbnail.channelThumbnailWithLinkRenderer.thumbnail.thumbnails[0].url.replace(
+        "=s68",
+        "=s480"
+      ),
+    }),
+    views: video.shortViewCountText
+      ? video.shortViewCountText.runs[0].text
+      : "",
+    duration:
+      video.thumbnailOverlays[0].thumbnailOverlayTimeStatusRenderer.text.runs[0]
+        .text,
+  };
+  return Object.keys(data)
+    .map((key) => `${key}=${encodeURIComponent(data[key])}`)
+    .join("&");
+}
+
 export function addContextMenus(obj) {
   const attr = this.contextMenuObjects.find((e) =>
     Object.prototype.hasOwnProperty.call(obj, e)
@@ -209,13 +240,15 @@ export function addContextMenus(obj) {
   }
   if (items instanceof Array) {
     obj[attr].menu.menuRenderer.isAdded = true;
+    const blockedItem = parseVideoDetails(obj[attr]);
+
     if (hasChannel) {
       items.push({
         menuNavigationItemRenderer: {
           text: { runs: [{ text: "Block Channel" }] },
           navigationEndpoint: {
             urlEndpoint: {
-              url: "/youblock?action=BLOCK_CHANNEL&id=fQoRfieZJxI",
+              url: `/youblock?action=BLOCK_CHANNEL&${blockedItem}`,
             },
           },
         },
@@ -227,7 +260,7 @@ export function addContextMenus(obj) {
           text: { runs: [{ text: "Block Video" }] },
           navigationEndpoint: {
             urlEndpoint: {
-              url: "/youblock?action=BLOCK_VIDEO&id=fQoRfieZJxI",
+              url: `/youblock?action=BLOCK_VIDEO&${blockedItem}`,
             },
           },
         },
