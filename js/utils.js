@@ -98,6 +98,6 @@ export function blockTrending(data) {
     redirectToIndex();
   }
 
-  data.filterData.channels.push(/^FEtrending$/);
-  data.filterData.channels.push(/^FEexplore$/);
+  data.filterData.channelId.push(/^FEtrending$/);
+  data.filterData.channelId.push(/^FEexplore$/);
 }

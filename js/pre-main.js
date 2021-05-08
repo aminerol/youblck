@@ -16,7 +16,7 @@ export function compileRegex(entriesArr, type) {
     v = v.trim();
 
     // unique id
-    if (["channels", "videos"].includes(type)) {
+    if (["channelId", "videoId"].includes(type)) {
       return [`^${v}$`, ""];
     }
 

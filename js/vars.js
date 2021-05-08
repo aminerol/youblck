@@ -1,12 +1,6 @@
 export function initVars() {
   this.currentBlock = false;
-  this.regexProps = [
-    "videos",
-    "channels",
-    "channelNames",
-    "keywords",
-    "comments",
-  ];
+  this.regexProps = ["videoId", "channelId", "channelName", "title", "comment"];
   this.deleteAllowed = [
     "richItemRenderer",
     "content",
