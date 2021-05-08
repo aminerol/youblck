@@ -1,4 +1,4 @@
-export function buildInjectedJavascript(jsCode: string): string {
+export function buildInjectedJavascript(jsCode: string, storage): string {
   // Keep compatibility with old code that uses window.postMessage. For more information,
   // see https://github.com/react-native-community/react-native-webview/releases/tag/v5.0.0
   let injectedJavascript = `
@@ -19,7 +19,14 @@ export function buildInjectedJavascript(jsCode: string): string {
   }
 
   // End the injectedJavascript with 'true;' or else you'll sometimes get silent failures
-  injectedJavascript += "main();true;";
+  const safeData = JSON.stringify(storage);
+  injectedJavascript += `
+    main();
+    this.storageData = ${safeData}; 
+    this.storageData = compileAll(this.storageData); 
+    transformToRegExp(this.storageData);
+    true;
+  `;
 
   return injectedJavascript;
 }
