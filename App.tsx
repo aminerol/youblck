@@ -4,10 +4,13 @@ import { WebView } from "react-native-webview";
 import { serialzeJS, buildInjectedJavascript } from "./utils";
 import url from "url";
 import { ShouldStartLoadRequest } from "react-native-webview/lib/WebViewTypes";
-import useStorage from "./storage";
+import useStorage, { StorageItem } from "./storage";
 
 export default function App() {
   const webView = useRef<WebView>();
+
+  const { blockVideo, blockChannel, ready, storage } = useStorage();
+
   const serialzedJS = [
     require("./js/vars"),
     require("./js/pre-main"),
@@ -19,29 +22,17 @@ export default function App() {
   ]
     .map((path) => serialzeJS(path))
     .join("\n");
-
-  const {
-    blockVideo,
-    blockChannel,
-    channels,
-    videos,
-    storage,
-    ready,
-  } = useStorage();
-
-  const injectJS =
-    `this.storageData = ${JSON.stringify(storage)};` +
-    buildInjectedJavascript(serialzedJS);
+  const injectJS = buildInjectedJavascript(serialzedJS, storage);
 
   const onContextMenuTap = async (
     action: string | string[],
-    id: string | string[]
+    item: StorageItem
   ) => {
     if (action === "BLOCK_CHANNEL") {
-      await blockChannel({ id });
+      await blockChannel(item);
     }
     if (action === "BLOCK_VIDEO") {
-      await blockVideo({ id });
+      await blockVideo(item);
     }
     webView.current?.postMessage(
       JSON.stringify({
@@ -55,8 +46,25 @@ export default function App() {
   const onStartLoad = (request: ShouldStartLoadRequest) => {
     const redirectUrl = url.parse(request.url, true);
     if (redirectUrl.pathname === "/youblock") {
-      const { action, id } = redirectUrl.query;
-      onContextMenuTap(action, id);
+      const {
+        action,
+        id,
+        duration,
+        owner,
+        publishedTime,
+        thumbnail,
+        title,
+        views,
+      } = redirectUrl.query;
+      onContextMenuTap(action, {
+        id: id.toString(),
+        duration: duration.toString(),
+        owner: JSON.parse(owner.toString()),
+        publishedTime: publishedTime.toString(),
+        thumbnail: thumbnail.toString(),
+        title: title.toString(),
+        views: views.toString(),
+      });
       webView.current?.goBack();
       return false;
     }
@@ -75,14 +83,6 @@ export default function App() {
           allowsBackForwardNavigationGestures={true}
           onShouldStartLoadWithRequest={onStartLoad}
           pullToRefreshEnabled={true}
-          onNavigationStateChange={(e) => {
-            webView.current?.postMessage(
-              JSON.stringify({
-                from: "YOUBLOCK",
-                type: "loadEnd",
-              })
-            );
-          }}
         />
       )}
     </View>
