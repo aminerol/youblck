@@ -1,15 +1,15 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { serialzeJS, buildInjectedJavascript } from "./utils";
 import url from "url";
 import { ShouldStartLoadRequest } from "react-native-webview/lib/WebViewTypes";
-import useStorage, { StorageItem } from "./storage";
+import useStorage, { Channel, Video } from "./storage";
 
 export default function App() {
   const webView = useRef<WebView>();
 
-  const { blockVideo, blockChannel, ready, storage } = useStorage();
+  const { block, ready, storage } = useStorage();
 
   const serialzedJS = [
     require("./js/vars"),
@@ -24,25 +24,6 @@ export default function App() {
     .join("\n");
   const injectJS = buildInjectedJavascript(serialzedJS, storage);
 
-  const onContextMenuTap = async (
-    action: string | string[],
-    item: StorageItem
-  ) => {
-    if (action === "BLOCK_CHANNEL") {
-      await blockChannel(item);
-    }
-    if (action === "BLOCK_VIDEO") {
-      await blockVideo(item);
-    }
-    webView.current?.postMessage(
-      JSON.stringify({
-        from: "YOUBLOCK",
-        type: "storage",
-        payload: storage,
-      })
-    );
-  };
-
   const onStartLoad = (request: ShouldStartLoadRequest) => {
     const redirectUrl = url.parse(request.url, true);
     if (redirectUrl.pathname === "/youblock") {
@@ -50,26 +31,48 @@ export default function App() {
         action,
         id,
         duration,
-        owner,
         publishedTime,
         thumbnail,
         title,
         views,
       } = redirectUrl.query;
-      onContextMenuTap(action, {
-        id: id.toString(),
-        duration: duration.toString(),
-        owner: JSON.parse(owner.toString()),
-        publishedTime: publishedTime.toString(),
-        thumbnail: thumbnail.toString(),
-        title: title.toString(),
-        views: views.toString(),
-      });
+      const owner = JSON.parse(redirectUrl.query.owner.toString()) as Channel;
+
+      if (action === "BLOCK_CHANNEL") {
+        block(owner, "channels");
+      }
+      if (action === "BLOCK_VIDEO") {
+        block(
+          {
+            id: id.toString(),
+            duration: duration.toString(),
+            publishedTime: publishedTime.toString(),
+            thumbnail: thumbnail.toString(),
+            name: title.toString(),
+            views: views.toString(),
+            ownerId: owner.id,
+          } as Video,
+          "videos"
+        );
+      }
       webView.current?.goBack();
       return false;
     }
     return true;
   };
+
+  useEffect(() => {
+    if (ready) {
+      console.log(storage);
+      webView.current?.postMessage(
+        JSON.stringify({
+          from: "YOUBLOCK",
+          type: "storage",
+          payload: storage,
+        })
+      );
+    }
+  }, [ready, storage]);
 
   return (
     <View style={styles.container}>
