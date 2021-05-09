@@ -63,7 +63,6 @@ export default function App() {
 
   useEffect(() => {
     if (ready) {
-      console.log(storage);
       webView.current?.postMessage(
         JSON.stringify({
           from: "YOUBLOCK",

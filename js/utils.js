@@ -20,6 +20,15 @@ export function getObjectByPath(obj, path, def = undefined) {
   return exist ? nextObj : def;
 }
 
+export function deepGetFirst(paths, o) {
+  for (let i = 0; i < paths.length; i++) {
+    value = getObjectByPath(o, paths[i]);
+    if (value) {
+      return value;
+    }
+  }
+}
+
 export function removeRvs() {
   if (
     Object.prototype.hasOwnProperty.call(

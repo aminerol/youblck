@@ -164,30 +164,26 @@ export function redirectToIndex() {
 }
 
 export function parseVideoDetails(video) {
-  const shortBylineText = video.shortBylineText.runs[0];
+  //window.postMessage(JSON.stringify(video));
+  //thumbnailOverlays.thumbnailOverlayTimeStatusRenderer.text.simpleText
+  //
   const data = {
-    id: video.videoId,
-    title: video.headline.runs[0].text,
+    id: deepGetFirst(["videoId"], video),
+    title: deepGetFirst(this.baseRules.title, video),
     thumbnail: `https://i.ytimg.com/vi/${video.videoId}/mqdefault.jpg`,
     publishedTime: video.publishedTimeText
       ? video.publishedTimeText.runs[0].text
       : "LIVE",
     owner: JSON.stringify({
-      name: shortBylineText.text,
-      id: shortBylineText.navigationEndpoint.browseEndpoint.browseId,
-      username:
-        shortBylineText.navigationEndpoint.browseEndpoint.canonicalBaseUrl,
-      thumbnail: video.channelThumbnail.channelThumbnailWithLinkRenderer.thumbnail.thumbnails[0].url.replace(
-        "=s68",
-        "=s480"
-      ),
+      name: deepGetFirst(this.baseRules.channelName, video),
+      id: deepGetFirst(this.baseRules.channelId, video),
+      username: deepGetFirst(this.baseRules.channelUsername, video),
+      thumbnail: deepGetFirst(this.baseRules.channelThumbnail, video),
     }),
     views: video.shortViewCountText
       ? video.shortViewCountText.runs[0].text
       : "",
-    duration:
-      video.thumbnailOverlays[0].thumbnailOverlayTimeStatusRenderer.text.runs[0]
-        .text,
+    duration: deepGetFirst(this.baseRules.vidLength, video),
   };
   return Object.keys(data)
     .map((key) => `${key}=${encodeURIComponent(data[key])}`)

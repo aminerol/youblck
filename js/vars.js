@@ -27,16 +27,34 @@ export function initVars() {
   ];
   this.baseRules = {
     videoId: "videoId",
-    channelId:
+    channelId: [
       "shortBylineText.runs.navigationEndpoint.browseEndpoint.browseId",
+      "authorEndpoint.browseEndpoint.browseId",
+      "channelId",
+      "navigationEndpoint.browseEndpoint.browseId",
+    ],
+    channelUsername: [
+      "shortBylineText.runs.navigationEndpoint.browseEndpoint.canonicalBaseUrl",
+      "authorEndpoint.browseEndpoint.canonicalBaseUrl",
+      "navigationEndpoint.browseEndpoint.canonicalBaseUrl",
+    ],
+    channelThumbnail: [
+      "channelThumbnail.channelThumbnailWithLinkRenderer.thumbnail.thumbnails.url",
+      "channelThumbnail.thumbnails.url",
+    ],
     channelName: [
       "shortBylineText.runs",
       "shortBylineText.simpleText",
       "longBylineText.simpleText",
+      "title.runs",
+      "authorText.runs",
+      "authorText.simpleText",
     ],
-    title: ["title.runs", "title.simpleText"],
-    vidLength:
+    title: ["title.runs", "title.simpleText", "headline.runs"],
+    vidLength: [
       "thumbnailOverlays.thumbnailOverlayTimeStatusRenderer.text.simpleText",
+      "thumbnailOverlays.thumbnailOverlayTimeStatusRenderer.text.runs",
+    ],
     viewCount: ["viewCountText.simpleText", "viewCountText.runs"],
     publishTimeText: "publishedTimeText.simpleText",
   };
