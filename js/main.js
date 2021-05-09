@@ -44,6 +44,20 @@ export function main() {
         injectFetch(response, url);
         return response;
       },
+      request: function (resource) {
+        const url = new URL(resource.url);
+        if (url.pathname === "/youblock") {
+          window.postMessage(
+            JSON.stringify({
+              from: "YOUBLOCK",
+              type: "menu",
+              payload: Object.fromEntries(url.searchParams),
+            })
+          );
+          return false;
+        }
+        return true;
+      },
     },
   });
 
@@ -56,9 +70,21 @@ export function main() {
         true
       );
     } catch (error) {
-      window.postMessage(error);
+      window.postMessage(
+        JSON.stringify({
+          from: "YOUBLOCK",
+          type: "error",
+          payload: error,
+        })
+      );
     }
   });
 
-  window.postMessage("youblock ready");
+  window.postMessage(
+    JSON.stringify({
+      from: "YOUBLOCK",
+      type: "test",
+      payload: "youblock ready",
+    })
+  );
 }

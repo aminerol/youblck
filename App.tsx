@@ -2,14 +2,13 @@ import React, { useEffect, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { serialzeJS, buildInjectedJavascript } from "./utils";
-import url from "url";
-import { ShouldStartLoadRequest } from "react-native-webview/lib/WebViewTypes";
+import { WebViewMessageEvent } from "react-native-webview/lib/WebViewTypes";
 import useStorage, { Channel, Video } from "./storage";
 
 export default function App() {
   const webView = useRef<WebView>();
 
-  const { block, ready, storage } = useStorage();
+  const { block, unBlock, ready, storage, state } = useStorage();
 
   const serialzedJS = [
     require("./js/vars"),
@@ -24,41 +23,47 @@ export default function App() {
     .join("\n");
   const injectJS = buildInjectedJavascript(serialzedJS, storage);
 
-  const onStartLoad = (request: ShouldStartLoadRequest) => {
-    const redirectUrl = url.parse(request.url, true);
-    if (redirectUrl.pathname === "/youblock") {
+  const onMessage = (event: WebViewMessageEvent) => {
+    const data = JSON.parse(event.nativeEvent.data);
+    const { from, type, payload } = data;
+    if (!from || from !== "YOUBLOCK") return;
+    if (type === "menu") {
       const {
         action,
         id,
         duration,
         publishedTime,
         thumbnail,
-        title,
+        title: name,
         views,
-      } = redirectUrl.query;
-      const owner = JSON.parse(redirectUrl.query.owner.toString()) as Channel;
+      } = payload;
+      const owner = JSON.parse(payload.owner) as Channel;
+      const video = {
+        id,
+        duration,
+        publishedTime,
+        thumbnail,
+        name,
+        views,
+        ownerId: owner.id,
+      } as Video;
 
       if (action === "BLOCK_CHANNEL") {
         block(owner, "channels");
       }
       if (action === "BLOCK_VIDEO") {
-        block(
-          {
-            id: id.toString(),
-            duration: duration.toString(),
-            publishedTime: publishedTime.toString(),
-            thumbnail: thumbnail.toString(),
-            name: title.toString(),
-            views: views.toString(),
-            ownerId: owner.id,
-          } as Video,
-          "videos"
-        );
+        block(video, "videos");
       }
-      webView.current?.goBack();
-      return false;
+      if (action === "UNBLOCK_CHANNEL") {
+        unBlock(owner, "channels");
+      }
+      if (action === "UNBLOCK_VIDEO") {
+        unBlock(video, "videos");
+      }
     }
-    return true;
+    if (type === "test") {
+      console.log(payload);
+    }
   };
 
   useEffect(() => {
@@ -81,9 +86,8 @@ export default function App() {
           source={{ uri: "https://m.youtube.com/" }}
           javaScriptEnabled={true}
           injectedJavaScriptBeforeContentLoaded={injectJS}
-          onMessage={(e) => console.log(e.nativeEvent.data)}
+          onMessage={onMessage}
           allowsBackForwardNavigationGestures={true}
-          onShouldStartLoadWithRequest={onStartLoad}
           pullToRefreshEnabled={true}
         />
       )}
