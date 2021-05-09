@@ -9,17 +9,25 @@ export function startInterceptFetch({ whiteList, interceptor }) {
   }
   window.fetch = (function (fetch) {
     return function (resource, init = undefined) {
+      const reversedInterceptors = interceptors.reduce(
+        (array, interceptor) => [interceptor].concat(array),
+        []
+      );
+
+      let shouldContinue = true;
+      reversedInterceptors.forEach(({ request }) => {
+        if (request) {
+          shouldContinue = request(resource);
+        }
+      });
+      if (!shouldContinue) return Promise.resolve(new Response());
+
       if (
         !(resource instanceof Request) ||
         !whiteList.some((u) => resource.url.includes(u))
       ) {
         return fetch(resource, init);
       }
-
-      const reversedInterceptors = interceptors.reduce(
-        (array, interceptor) => [interceptor].concat(array),
-        []
-      );
 
       const onResponseError = (err, reject) => {
         reversedInterceptors.forEach(({ responseError }) => {
