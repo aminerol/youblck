@@ -47,14 +47,18 @@ export function main() {
     },
   });
 
-  window.addEventListener("state-navigateend", (e) =>
-    ObjectFilter(
-      e.detail.data.response.response,
-      this.filterRulesMain,
-      [],
-      true
-    )
-  );
+  window.addEventListener("state-navigateend", (e) => {
+    try {
+      ObjectFilter(
+        e.detail.data.response.response,
+        this.filterRulesMain,
+        [],
+        true
+      );
+    } catch (error) {
+      window.postMessage(error);
+    }
+  });
 
   window.postMessage("youblock ready");
 }
