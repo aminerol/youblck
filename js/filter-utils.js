@@ -164,9 +164,6 @@ export function redirectToIndex() {
 }
 
 export function parseVideoDetails(video) {
-  //window.postMessage(JSON.stringify(video));
-  //thumbnailOverlays.thumbnailOverlayTimeStatusRenderer.text.simpleText
-  //
   const data = {
     id: deepGetFirst(["videoId"], video),
     title: deepGetFirst(this.baseRules.title, video),
@@ -188,6 +185,81 @@ export function parseVideoDetails(video) {
   return Object.keys(data)
     .map((key) => `${key}=${encodeURIComponent(data[key])}`)
     .join("&");
+}
+
+export function buildContextMenu(block, unblock) {
+  return {
+    menuServiceItemRenderer: {
+      text: {
+        runs: [
+          {
+            text: block.text,
+          },
+        ],
+      },
+      serviceEndpoint: {
+        commandMetadata: {
+          webCommandMetadata: {
+            sendPost: true,
+            apiUrl: `/youblock?action=${block.action}&${block.item}`,
+          },
+        },
+        feedbackEndpoint: {
+          uiActions: {
+            hideEnclosingContainer: true,
+          },
+          actions: [
+            {
+              replaceEnclosingAction: {
+                item: {
+                  notificationMultiActionRenderer: {
+                    responseText: {
+                      runs: [
+                        {
+                          text: unblock.text,
+                        },
+                      ],
+                    },
+                    buttons: [
+                      {
+                        buttonRenderer: {
+                          style: "STYLE_BLUE_TEXT",
+                          text: {
+                            runs: [
+                              {
+                                text: "Undo",
+                              },
+                            ],
+                          },
+                          serviceEndpoint: {
+                            commandMetadata: {
+                              webCommandMetadata: {
+                                sendPost: true,
+                                apiUrl: `/youblock?action=${unblock.action}&${unblock.item}`,
+                              },
+                            },
+                            undoFeedbackEndpoint: {
+                              actions: [
+                                {
+                                  undoFeedbackAction: {
+                                    hack: true,
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
+    },
+  };
 }
 
 export function addContextMenus(obj) {
@@ -239,28 +311,24 @@ export function addContextMenus(obj) {
     const blockedItem = parseVideoDetails(obj[attr]);
 
     if (hasChannel) {
-      items.push({
-        menuNavigationItemRenderer: {
-          text: { runs: [{ text: "Block Channel" }] },
-          navigationEndpoint: {
-            urlEndpoint: {
-              url: `/youblock?action=BLOCK_CHANNEL&${blockedItem}`,
-            },
-          },
-        },
-      });
+      items.push(
+        buildContextMenu(
+          { text: "Block Channel", action: "BLOCK_CHANNEL", item: blockedItem },
+          {
+            text: "Channel Blocked",
+            action: "UNBLOCK_CHANNEL",
+            item: blockedItem,
+          }
+        )
+      );
     }
     if (hasVideo) {
-      items.push({
-        menuNavigationItemRenderer: {
-          text: { runs: [{ text: "Block Video" }] },
-          navigationEndpoint: {
-            urlEndpoint: {
-              url: `/youblock?action=BLOCK_VIDEO&${blockedItem}`,
-            },
-          },
-        },
-      });
+      items.push(
+        buildContextMenu(
+          { text: "Block Video", action: "BLOCK_VIDEO", item: blockedItem },
+          { text: "Video Blocked", action: "UNBLOCK_VIDEO", item: blockedItem }
+        )
+      );
     }
   }
 }
