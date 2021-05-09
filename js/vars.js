@@ -66,12 +66,12 @@ export function initVars() {
       properties: baseRules,
       related: "shelfRenderer",
     },
+    compactRadioRenderer: baseRules,
 
     movieRenderer: baseRules,
     gridVideoRenderer: baseRules,
     radioRenderer: baseRules,
     gridRadioRenderer: baseRules,
-    compactRadioRenderer: baseRules,
 
     endScreenVideoRenderer: baseRules,
     endScreenPlaylistRenderer: baseRules,

@@ -54,7 +54,7 @@ export function matchFilterRule(obj) {
       }
 
       const isMatch =
-        (this.storageData.options.mixes && h === "radioRenderer") ||
+        (this.storageData.options.mixes && h === "compactRadioRenderer") ||
         matchFilterData(properties, filteredObject, h);
       if (isMatch) {
         res.push({
