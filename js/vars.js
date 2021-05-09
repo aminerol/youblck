@@ -67,6 +67,7 @@ export function initVars() {
       related: "shelfRenderer",
     },
     compactRadioRenderer: baseRules,
+    compactPlaylistRenderer: baseRules,
 
     movieRenderer: baseRules,
     gridVideoRenderer: baseRules,
