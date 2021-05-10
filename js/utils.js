@@ -99,14 +99,8 @@ export function transformToRegExp(data) {
   });
 }
 
-export function blockTrending(data) {
-  if (
-    document.location.pathname === "/feed/trending" ||
-    document.location.pathname === "/feed/explore"
-  ) {
-    redirectToIndex();
-  }
-
-  data.filterData.channelId.push(/^FEtrending$/);
-  data.filterData.channelId.push(/^FEexplore$/);
+export function blockTrending() {
+  redirectToIndex();
+  this.storageData.filterData.channelId.push(/^FEtrending$/);
+  this.storageData.filterData.channelId.push(/^FEexplore$/);
 }

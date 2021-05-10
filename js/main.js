@@ -61,6 +61,16 @@ export function main() {
     },
   });
 
+  window.addEventListener("state-navigatestart", (e) => {
+    if (
+      (e.detail.href === "/feed/trending" ||
+        e.detail.href === "/feed/explore") &&
+      this.storageData.options.trending
+    ) {
+      blockTrending();
+    }
+  });
+
   window.addEventListener("state-navigateend", (e) => {
     try {
       ObjectFilter(
