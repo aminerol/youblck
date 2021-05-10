@@ -20,7 +20,8 @@ export function startInterceptFetch({ whiteList, interceptor }) {
           shouldContinue = request(resource);
         }
       });
-      if (!shouldContinue) return Promise.resolve(new Response());
+      if (!shouldContinue)
+        return Promise.resolve(new Response(JSON.stringify({})));
 
       if (
         !(resource instanceof Request) ||
