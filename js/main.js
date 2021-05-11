@@ -72,6 +72,35 @@ export function main() {
   });
 
   window.addEventListener("state-navigateend", (e) => {
+    if (!this.tabAdded) {
+      const tabs = document.getElementsByTagName("ytm-pivot-bar-renderer")[0]
+        .data.items;
+      tabs.splice(Math.round(tabs.length / 2), 0, {
+        pivotBarItemRenderer: {
+          navigationEndpoint: {
+            commandMetadata: {
+              webCommandMetadata: {
+                url: "/youblock?action=OPEN_LIBRARY",
+              },
+            },
+          },
+          title: {
+            runs: [
+              {
+                text: "Blocked",
+              },
+            ],
+          },
+          icon: {
+            iconType: "SHIELD",
+          },
+        },
+      });
+      this.tabAdded = true;
+    }
+  });
+
+  window.addEventListener("state-navigateend", (e) => {
     try {
       ObjectFilter(
         e.detail.data.response.response,

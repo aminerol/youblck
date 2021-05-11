@@ -1,5 +1,6 @@
 export function initVars() {
   this.currentBlock = false;
+  this.tabAdded = false;
   this.regexProps = ["videoId", "channelId", "channelName", "title", "comment"];
   this.deleteAllowed = [
     "richItemRenderer",
