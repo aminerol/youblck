@@ -187,7 +187,7 @@ export function parseVideoDetails(video) {
     .join("&");
 }
 
-export function buildContextMenu(block, unblock) {
+export function buildContextMenu(id, block, unblock) {
   return {
     menuServiceItemRenderer: {
       text: {
@@ -251,6 +251,7 @@ export function buildContextMenu(block, unblock) {
                         },
                       },
                     ],
+                    data: { id },
                   },
                 },
               },
@@ -313,6 +314,7 @@ export function addContextMenus(obj) {
     if (hasChannel) {
       items.push(
         buildContextMenu(
+          deepGetFirst(this.baseRules.channelId, obj[attr]),
           { text: "Block Channel", action: "BLOCK_CHANNEL", item: blockedItem },
           {
             text: "Channel Blocked",
@@ -325,6 +327,7 @@ export function addContextMenus(obj) {
     if (hasVideo) {
       items.push(
         buildContextMenu(
+          deepGetFirst(["videoId"], obj[attr]),
           { text: "Block Video", action: "BLOCK_VIDEO", item: blockedItem },
           { text: "Video Blocked", action: "UNBLOCK_VIDEO", item: blockedItem }
         )

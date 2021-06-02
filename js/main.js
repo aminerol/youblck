@@ -24,6 +24,20 @@ export function listenToMessagesFromNative() {
         this.storageData = compileAll(this.storageData);
         transformToRegExp(this.storageData);
       }
+      if (type === "undo") {
+        const { id } = payload;
+        document.getElementsByTagName("ytm-notification-multi-action-renderer");
+        Array.prototype.forEach.call(
+          document.getElementsByTagName(
+            "ytm-notification-multi-action-renderer"
+          ),
+          (el) => {
+            if (el.data.data.id === id) {
+              el.querySelector("button").click();
+            }
+          }
+        );
+      }
     },
     true
   );
