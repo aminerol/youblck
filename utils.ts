@@ -1,3 +1,5 @@
+import { filter, isEmpty } from "lodash";
+
 export function buildInjectedJavascript(jsCode: string, storage): string {
   // Keep compatibility with old code that uses window.postMessage. For more information,
   // see https://github.com/react-native-community/react-native-webview/releases/tag/v5.0.0
@@ -61,3 +63,30 @@ export const serialzeJS = (theModule) => {
   }, "");
   return `${serialized};`;
 };
+
+export async function getChannelInfo(channelId) {
+  try {
+    const response = await fetch(
+      `https://m.youtube.com/results?sp=mAEA&search_query=${channelId}&pbj=1`,
+      {
+        method: "POST",
+      }
+    );
+    var json = await response.json();
+    if (json != null) {
+      const contents =
+        json.response.contents.sectionListRenderer.contents[0]
+          .itemSectionRenderer.contents;
+      let channel = filter(contents, "compactChannelRenderer")[0];
+      if (!isEmpty(channel)) {
+        channel = channel.compactChannelRenderer;
+        return Promise.resolve({
+          videoCount: channel.videoCountText.runs[0].text,
+          subscriberCount: channel.subscriberCountText.runs[0].text,
+        });
+      } else return Promise.resolve({});
+    }
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
