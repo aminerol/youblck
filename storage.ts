@@ -9,6 +9,8 @@ export interface IStorageItem {
 
 export interface Channel extends IStorageItem {
   username: string;
+  subscriberCount: string;
+  videoCount: number;
 }
 
 export interface Video extends IStorageItem {
