@@ -9,15 +9,21 @@ import url from "url";
 import Library from "./Library";
 import { jsFiles } from "../js";
 import { useWebView } from "../context/webview";
+import * as Linking from "expo-linking";
 
 export default function Home() {
   const { ref: webView, postMessage } = useWebView();
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { block, unBlock, ready, storage, state } = useStorage();
+  const { block, unBlock, ready, storage } = useStorage();
 
   const serialzedJS = jsFiles.map((path) => serialzeJS(path)).join("\n");
   const injectJS = buildInjectedJavascript(serialzedJS, storage);
+  const blockedUrls = [
+    "studio.youtube.com",
+    "myaccount.google.com",
+    "support.google.com",
+  ];
 
   const onMessage = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
@@ -88,8 +94,13 @@ export default function Home() {
           pullToRefreshEnabled={true}
           onShouldStartLoadWithRequest={(e) => {
             const redirectTo = url.parse(e.url, true);
+            console.log(redirectTo.host);
             if (redirectTo.query.action === "OPEN_LIBRARY") {
               setModalVisible(true);
+              return false;
+            }
+            if (blockedUrls.includes(redirectTo.host)) {
+              Linking.openURL(e.url);
               return false;
             }
             return true;
