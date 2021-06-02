@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "YouBlock",
+    "slug": "you-block",
+    "privacy": "public",
+    "platforms": ["ios", "android"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "description": "YouBlock - an app for blocking videos and channels from showing up on youtube app"
+  },
+  "displayName": "You Block",
+  "name": "YouBlock"
+}
