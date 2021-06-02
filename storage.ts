@@ -3,8 +3,8 @@ import { usePersistStorage } from "react-native-use-persist-storage";
 
 export interface IStorageItem {
   id: string;
-  thumbnail: string;
-  name: string;
+  thumbnail?: string;
+  name?: string;
 }
 
 export interface Channel extends IStorageItem {
@@ -15,12 +15,16 @@ export interface Video extends IStorageItem {
   duration: string;
   publishedTime: string;
   views: string;
-  ownerId: string;
+  owner: Channel;
+}
+
+export interface Keyword extends IStorageItem {
+  keyword: string;
 }
 
 interface Storage {
   filterData: {
-    keywords: string[];
+    keywords: Keyword[];
     channels: Channel[];
     videos: Video[];
     comments: string[];
@@ -47,7 +51,10 @@ const useStorage = () => {
     },
   });
 
-  const block = async (item: IStorageItem, type: "videos" | "channels") => {
+  const block = async (
+    item: IStorageItem,
+    type: "videos" | "channels" | "keywords"
+  ) => {
     await setState((state) => ({
       ...state,
       filterData: {
@@ -57,7 +64,10 @@ const useStorage = () => {
     }));
   };
 
-  const unBlock = async (item: IStorageItem, type: "videos" | "channels") => {
+  const unBlock = async (
+    item: IStorageItem,
+    type: "videos" | "channels" | "keywords"
+  ) => {
     await setState((state) => ({
       ...state,
       filterData: {
@@ -69,7 +79,7 @@ const useStorage = () => {
     }));
   };
 
-  const unBlockAll = async (type: "videos" | "channels") => {
+  const unBlockAll = async (type: "videos" | "channels" | "keywords") => {
     await setState((state) => ({
       ...state,
       filterData: {
@@ -86,7 +96,7 @@ const useStorage = () => {
         videoId: state.filterData.videos.map((item) => item.id),
         channelId: state.filterData.channels.map((item) => item.id),
         channelName: state.filterData.channels.map((item) => item.name),
-        title: state.filterData.keywords,
+        title: state.filterData.keywords.map((item) => item.keyword),
         comment: state.filterData.comments,
       },
     }),
