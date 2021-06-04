@@ -10,7 +10,8 @@ interface PostMessageProps<T> {
 const WebViewContext = React.createContext<{
   ref: React.MutableRefObject<WebView<{}>>;
   postMessage: (props: PostMessageProps<{}>) => void;
-}>({ ref: null, postMessage: () => {} });
+  updateStorage: (storage: {}) => void;
+}>({ ref: null, postMessage: () => {}, updateStorage: () => {} });
 
 export const WebViewProvider: React.FC = ({ children }) => {
   const webView = React.useRef<WebView>();
@@ -29,8 +30,18 @@ export const WebViewProvider: React.FC = ({ children }) => {
     );
   };
 
+  const updateStorage = <T extends {}>(storage: T) => {
+    postMessage({
+      from: "YOUBLOCK",
+      type: "storage",
+      payload: storage,
+    });
+  };
+
   return (
-    <WebViewContext.Provider value={{ ref: webView, postMessage }}>
+    <WebViewContext.Provider
+      value={{ ref: webView, postMessage, updateStorage }}
+    >
       {children}
     </WebViewContext.Provider>
   );

@@ -18,7 +18,7 @@ import { useWebView } from "../context/webview";
 import * as Linking from "expo-linking";
 
 export default function Home() {
-  const { ref: webView, postMessage } = useWebView();
+  const { ref: webView, updateStorage } = useWebView();
   const [modalVisible, setModalVisible] = useState(false);
 
   const { block, unBlock, ready, storage } = useStorage();
@@ -79,11 +79,7 @@ export default function Home() {
 
   useEffect(() => {
     if (ready) {
-      postMessage({
-        from: "YOUBLOCK",
-        type: "storage",
-        payload: storage,
-      });
+      updateStorage(storage);
     }
   }, [ready, storage]);
 

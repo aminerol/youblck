@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import EmptyList from "../../../components/flatlist/empty";
 import FlatListEx from "../../../components/flatlist";
@@ -8,13 +8,17 @@ import { useWebView } from "../../../context/webview";
 import useStorage, { Video } from "../../../storage";
 
 const Videos = () => {
-  const { postMessage } = useWebView();
-  const { state, ready, unBlock } = useStorage();
+  const { postMessage, updateStorage } = useWebView();
+  const { state, ready, unBlock, storage } = useStorage();
   const listState = ready
     ? state.filterData.videos.length === 0
       ? RefreshState.EmptyData
       : RefreshState.Idle
     : RefreshState.LoadingData;
+
+  useEffect(() => {
+    updateStorage(storage);
+  }, [storage]);
 
   const renderItem = ({ item }: { item: Video }) => (
     <VideoItem
