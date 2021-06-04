@@ -112,6 +112,13 @@ export function main() {
       });
       this.tabAdded = true;
     }
+
+    setInterval(() => {
+      const openApp = document.getElementsByClassName("open-app-button");
+      if (openApp && openApp[0]) {
+        openApp[0].remove();
+      }
+    }, 200);
   });
 
   window.addEventListener("state-navigateend", (e) => {

@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Text, Modal, StyleSheet, View, TouchableOpacity } from "react-native";
+import {
+  Text,
+  Modal,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import { WebView } from "react-native-webview";
 import { serialzeJS, buildInjectedJavascript, getChannelInfo } from "../utils";
 import { WebViewMessageEvent } from "react-native-webview/lib/WebViewTypes";
@@ -82,7 +88,7 @@ export default function Home() {
   }, [ready, storage]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {ready && (
         <WebView
           ref={webView}
@@ -94,13 +100,15 @@ export default function Home() {
           pullToRefreshEnabled={true}
           onShouldStartLoadWithRequest={(e) => {
             const redirectTo = url.parse(e.url, true);
-            console.log(redirectTo.host);
             if (redirectTo.query.action === "OPEN_LIBRARY") {
               setModalVisible(true);
               return false;
             }
             if (blockedUrls.includes(redirectTo.host)) {
               Linking.openURL(e.url);
+              return false;
+            }
+            if (redirectTo.query.feature === "mweb_c3_open_app") {
               return false;
             }
             return true;
@@ -120,7 +128,7 @@ export default function Home() {
         </TouchableOpacity>
         <Library />
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 

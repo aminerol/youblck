@@ -69,6 +69,7 @@ export function initVars() {
     },
     compactRadioRenderer: baseRules,
     compactPlaylistRenderer: baseRules,
+    watchMetadataAppPromoRenderer: baseRules,
 
     movieRenderer: baseRules,
     gridVideoRenderer: baseRules,

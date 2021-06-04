@@ -55,6 +55,7 @@ export function matchFilterRule(obj) {
 
       const isMatch =
         (this.storageData.options.mixes && h === "compactRadioRenderer") ||
+        h === "watchMetadataAppPromoRenderer" ||
         matchFilterData(properties, filteredObject, h);
       if (isMatch) {
         res.push({
