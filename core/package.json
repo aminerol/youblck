@@ -1,0 +1,15 @@
+{
+  "name": "core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "build": "esbuild index.ts --bundle --loader:.ts=ts --outfile=../app/build/out.js --minify",
+    "watch": "esbuild index.ts --bundle --loader:.ts=ts --outfile=../app/build/out.js --minify --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.12.6"
+  }
+}
