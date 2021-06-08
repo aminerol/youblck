@@ -2,14 +2,16 @@
   "name": "core",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
   "scripts": {
-    "build": "esbuild index.ts --bundle --loader:.ts=ts --outfile=../app/build/out.js --minify",
-    "watch": "esbuild index.ts --bundle --loader:.ts=ts --outfile=../app/build/out.js --minify --watch"
+    "uglify": "uglifyjs --mangle --compress --output ../app/build/out.txt -- ./build/out.js",
+    "watch": "esbuild src/main.ts --bundle --loader:.ts=ts --outfile=../app/build/out.txt --watch",
+    "build": "esbuild src/main.ts --bundle --loader:.ts=ts --outfile=./build/out.js && yarn uglify"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "esbuild": "^0.12.6"
+  "devDependencies": {
+    "@types/node": "^15.12.1",
+    "esbuild": "^0.12.6",
+    "uglify-js": "^3.13.9"
   }
 }

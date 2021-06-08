@@ -50,3 +50,5 @@ xcuserdata
 
 # VSCode
 .history/
+app/assets/js/out.js
+build
