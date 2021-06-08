@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   Modal,
@@ -7,29 +7,34 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { WebView } from "react-native-webview";
-import { serialzeJS, buildInjectedJavascript, getChannelInfo } from "../utils";
 import { WebViewMessageEvent } from "react-native-webview/lib/WebViewTypes";
 import { Ionicons } from "@expo/vector-icons";
-import useStorage, { Channel, Video } from "../storage";
 import url from "url";
-import Library from "./Library";
-import { jsFiles } from "../js";
-import { useWebView } from "../context/webview";
 import * as Linking from "expo-linking";
+
+import { getChannelInfo } from "../utils";
+import Library from "./Library";
+import { useWebView } from "../context/webview";
+import useStorage, { Channel, Video } from "../storage";
+import { useLoadAssets } from "../components/assets";
+
+const blockedUrls = [
+  "studio.youtube.com",
+  "myaccount.google.com",
+  "support.google.com",
+];
 
 export default function Home() {
   const { ref: webView, updateStorage } = useWebView();
   const [modalVisible, setModalVisible] = useState(false);
-
   const { block, unBlock, ready, storage } = useStorage();
+  const injectedJS = useLoadAssets(require("../build/out.txt"));
 
-  const serialzedJS = jsFiles.map((path) => serialzeJS(path)).join("\n");
-  const injectJS = buildInjectedJavascript(serialzedJS, storage);
-  const blockedUrls = [
-    "studio.youtube.com",
-    "myaccount.google.com",
-    "support.google.com",
-  ];
+  useEffect(() => {
+    if (ready) {
+      updateStorage(storage);
+    }
+  }, [ready, storage]);
 
   const onMessage = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
@@ -72,16 +77,17 @@ export default function Home() {
         unBlock(video, "videos");
       }
     }
-    if (type === "test") {
+    if (type === "loaded") {
+      updateStorage(storage);
+    }
+    if (type === "error") {
       console.log(payload);
     }
   };
 
-  useEffect(() => {
-    if (ready) {
-      updateStorage(storage);
-    }
-  }, [ready, storage]);
+  if (!injectedJS) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -90,7 +96,7 @@ export default function Home() {
           ref={webView}
           source={{ uri: "https://m.youtube.com/" }}
           javaScriptEnabled={true}
-          injectedJavaScriptBeforeContentLoaded={injectJS}
+          injectedJavaScriptBeforeContentLoaded={injectedJS}
           onMessage={onMessage}
           allowsBackForwardNavigationGestures={true}
           pullToRefreshEnabled={true}

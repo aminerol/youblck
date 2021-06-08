@@ -9,11 +9,11 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
-    "description": "YouBlock - an app for blocking videos and channels from showing up on youtube app"
+    "description": "YouBlock - an app for blocking videos and channels from showing up on youtube app",
+    "assetBundlePatterns": ["**/*"]
   },
   "displayName": "You Block",
   "name": "YouBlock"
