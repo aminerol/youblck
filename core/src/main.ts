@@ -57,12 +57,13 @@ function main() {
       //@ts-ignore
       window.ReactNativeWebView.postMessage(data);
     };
-    window.onerror = function (message, sourcefile, lineno, colno, error) {
+    window.onerror = function (_, sourcefile, lineno, colno, error) {
+      const { message, name, stack } = error as Error;
       window.postMessage(
         JSON.stringify({
           from: "YOUBLOCK",
           type: "error",
-          payload: { trace: { message, sourcefile, lineno, colno }, error },
+          payload: { message, name, stack },
         }),
         this
       );
@@ -152,11 +153,12 @@ function main() {
     try {
       ObjectFilter(e.detail.data.response.response, filterRulesMain, [], true);
     } catch (error) {
+      const { message, name, stack } = error as Error;
       window.postMessage(
         JSON.stringify({
           from: "YOUBLOCK",
           type: "error",
-          payload: error,
+          payload: { message, name, stack },
         }),
         this
       );
