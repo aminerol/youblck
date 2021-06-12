@@ -1,5 +1,8 @@
-import { useMemo } from "react";
-import { usePersistStorage } from "react-native-use-persist-storage";
+import { useContext, useMemo } from "react";
+import {
+  usePersistStorage,
+  createPersistContext,
+} from "react-native-use-persist-storage";
 
 export interface IStorageItem {
   id: string;
@@ -38,20 +41,27 @@ interface Storage {
   };
 }
 
+const { Context: StateContext, Provider: StateProvider } = createPersistContext(
+  {
+    storageKey: "@State",
+    defaultData: {
+      filterData: {
+        keywords: [],
+        channels: [],
+        videos: [],
+        comments: [],
+      },
+      options: {
+        trending: false,
+        mixes: false,
+        suggestions_only: false,
+      },
+    },
+  }
+);
+
 const useStorage = () => {
-  const [state, setState, isStateReady] = usePersistStorage<Storage>("@State", {
-    filterData: {
-      keywords: [],
-      channels: [],
-      videos: [],
-      comments: [],
-    },
-    options: {
-      trending: false,
-      mixes: false,
-      suggestions_only: false,
-    },
-  });
+  const [state, setState, isStateReady] = useContext(StateContext);
 
   const block = async (
     item: IStorageItem,
@@ -114,4 +124,6 @@ const useStorage = () => {
     ready: isStateReady,
   };
 };
+
 export default useStorage;
+export { StateProvider };

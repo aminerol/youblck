@@ -1,5 +1,5 @@
 import { isEmpty } from "lodash";
-import React, { useEffect } from "react";
+import React from "react";
 import { View } from "react-native";
 import EmptyList from "../../../components/flatlist/empty";
 import FlatListEx from "../../../components/flatlist";
@@ -7,20 +7,14 @@ import { RefreshState } from "../../../components/flatlist/types";
 import TextInputEx from "../../../components/textinput";
 import KeywordItem from "./item";
 import useStorage, { Keyword } from "../../../storage";
-import { useWebView } from "../../../context/webview";
 
 const Keywords = () => {
-  const { updateStorage } = useWebView();
   const { state, ready, unBlock, block, storage } = useStorage();
   const listState = ready
     ? state.filterData.keywords.length === 0
       ? RefreshState.EmptyData
       : RefreshState.Idle
     : RefreshState.LoadingData;
-
-  useEffect(() => {
-    updateStorage(storage);
-  }, [storage]);
 
   const renderItem = ({ item }: { item: Keyword }) => (
     <KeywordItem
