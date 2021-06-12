@@ -2,17 +2,18 @@ import { GlobalVars } from "./globals";
 import { regexProps, baseRules, contextMenuObjects } from "./constants";
 import { deepGetFirst, getObjectByPath } from "./utils";
 import { redirectToIndex } from "./post-actions";
-let { storageData } = GlobalVars;
 
 export function blockTrending() {
   redirectToIndex();
-  storageData.filterData.channelId.push(/^FEtrending$/);
-  storageData.filterData.channelId.push(/^FEexplore$/);
+  GlobalVars.storageData.filterData.channelId.push(/^FEtrending$/);
+  GlobalVars.storageData.filterData.channelId.push(/^FEexplore$/);
 }
 
 export function isDataEmpty() {
   for (let idx = 0; idx < regexProps.length; idx += 1) {
-    if (storageData.filterData[regexProps[idx]].length > 0) return false;
+    if (GlobalVars.storageData.filterData[regexProps[idx]].length > 0) {
+      return false;
+    }
   }
   return true;
 }

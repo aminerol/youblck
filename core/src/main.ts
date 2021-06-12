@@ -5,8 +5,6 @@ import { startInterceptFetch } from "./intercept";
 import { compileAll, transformToRegExp } from "./pre-main";
 import { blockTrending } from "./filter-utils";
 
-let { storageData, tabAdded } = GlobalVars;
-
 function injectFetch(resp, url) {
   if (
     [
@@ -29,9 +27,9 @@ function listenToMessagesFromNative() {
       const { from, type, payload } = data;
       if (!from || from !== "YOUBLOCK") return;
       if (type === "storage") {
-        storageData = payload;
-        storageData = compileAll(storageData);
-        transformToRegExp(storageData);
+        GlobalVars.storageData = payload;
+        GlobalVars.storageData = compileAll(GlobalVars.storageData);
+        transformToRegExp(GlobalVars.storageData);
       }
       if (type === "undo") {
         const { id } = payload;
@@ -108,14 +106,14 @@ function main() {
     if (
       (e.detail.href === "/feed/trending" ||
         e.detail.href === "/feed/explore") &&
-      storageData.options.trending
+      GlobalVars.storageData.options.trending
     ) {
       blockTrending();
     }
   });
 
   window.addEventListener("state-navigateend", (e: any) => {
-    if (!tabAdded) {
+    if (!GlobalVars.tabAdded) {
       const tabs = document.getElementsByTagName("ytm-pivot-bar-renderer")[0] //@ts-ignore
         .data.items;
       tabs.splice(Math.round(tabs.length / 2), 0, {
@@ -139,7 +137,7 @@ function main() {
           },
         },
       });
-      tabAdded = true;
+      GlobalVars.tabAdded = true;
     }
 
     setInterval(() => {

@@ -34,13 +34,10 @@ function compileRegex(
 
     // regular keyword
     return [
-      "(^|" +
-        unicodeBoundry +
-        ")(" +
-        v.replace(/[\\^$*+?.()|[\]{}]/g, "\\$&") +
-        ")(" +
-        unicodeBoundry +
-        "|$)",
+      `(^|${unicodeBoundry})(${v.replace(
+        /[\\^$*+?.()|[\]{}]/g,
+        "\\$&"
+      )})(${unicodeBoundry}|$)`,
       "i",
     ];
   });

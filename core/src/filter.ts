@@ -3,8 +3,6 @@ import { regexProps, deleteAllowed } from "./constants";
 import { addContextMenus, flattenRuns, isDataEmpty } from "./filter-utils";
 import { getObjectByPath } from "./utils";
 
-let { currentItem, storageData } = GlobalVars;
-
 let filterRules: any;
 let contextMenus: any;
 
@@ -13,7 +11,7 @@ function matchFilterData(filters, obj) {
     const filterPath = filters[h];
     if (filterPath === undefined) return false;
 
-    const properties = storageData.filterData[h];
+    const properties = GlobalVars.storageData.filterData[h];
     if (properties === undefined || properties.length === 0) return false;
 
     const filterPathArr =
@@ -65,7 +63,8 @@ function matchFilterRule(obj) {
       }
 
       const isMatch =
-        (storageData.options.mixes && h === "compactRadioRenderer") ||
+        (GlobalVars.storageData.options.mixes &&
+          h === "compactRadioRenderer") ||
         h === "watchMetadataAppPromoRenderer" ||
         //@ts-ignore
         matchFilterData(properties, filteredObject, h);
@@ -81,7 +80,7 @@ function matchFilterRule(obj) {
   }, []);
 }
 
-function filter(obj = currentItem) {
+function filter(obj = GlobalVars.currentItem) {
   let deletePrev = false;
 
   // we reached the end of the object
@@ -156,7 +155,7 @@ export function ObjectFilter(
   postActions = [],
   _contextMenus = false
 ) {
-  currentItem = _currentItem;
+  GlobalVars.currentItem = _currentItem;
   filterRules = _filterRules;
   contextMenus = _contextMenus;
   filter();
