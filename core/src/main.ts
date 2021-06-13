@@ -3,7 +3,7 @@ import { filterRulesGuide, filterRulesMain } from "./constants";
 import { ObjectFilter } from "./filter";
 import { startInterceptFetch } from "./intercept";
 import { compileAll, transformToRegExp } from "./pre-main";
-import { blockTrending } from "./filter-utils";
+import { blockTrending, removeTrendingTab } from "./filter-utils";
 
 function injectFetch(resp, url) {
   if (
@@ -44,6 +44,23 @@ function listenToMessagesFromNative() {
             }
           }
         );
+      }
+      if (type === "toggleTrending") {
+        GlobalVars.storageData.options.trending = payload;
+        if (GlobalVars.storageData.options.trending) {
+          removeTrendingTab();
+        } else {
+          const tabs = document.getElementsByTagName(
+            "ytm-pivot-bar-renderer"
+          )[0];
+          tabs.insertBefore(
+            GlobalVars.trendingTab.item,
+            tabs.children[GlobalVars.trendingTab.index]
+          );
+        }
+      }
+      if (type === "toggleMixes") {
+        GlobalVars.storageData.options.mixes = payload;
       }
     },
     true
@@ -145,6 +162,10 @@ function main() {
       const openApp = document.getElementsByClassName("open-app-button");
       if (openApp && openApp[0]) {
         openApp[0].remove();
+      }
+
+      if (GlobalVars.storageData.options.trending) {
+        removeTrendingTab();
       }
     }, 200);
   });

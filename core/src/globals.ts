@@ -20,4 +20,5 @@ export let GlobalVars = {
       videoId: [],
     },
   } as StorageInterface,
+  trendingTab: {} as any,
 };

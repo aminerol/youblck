@@ -9,6 +9,18 @@ export function blockTrending() {
   GlobalVars.storageData.filterData.channelId.push(/^FEexplore$/);
 }
 
+export function removeTrendingTab() {
+  document
+    .getElementsByTagName("ytm-pivot-bar-renderer")[0]
+    .childNodes.forEach((el, index) => {
+      //@ts-ignore
+      if (el.data.pivotIdentifier === "FEtrending") {
+        GlobalVars.trendingTab = { item: el, index };
+        el.remove();
+      }
+    });
+}
+
 export function isDataEmpty() {
   for (let idx = 0; idx < regexProps.length; idx += 1) {
     if (GlobalVars.storageData.filterData[regexProps[idx]].length > 0) {

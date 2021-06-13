@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import WebView from "react-native-webview";
 
 interface PostMessageProps<T> {
-  from: "YOUBLOCK";
-  type: "storage" | "undo";
-  payload: T;
+  from?: "YOUBLOCK";
+  type: "storage" | "undo" | "toggleTrending" | "toggleMixes";
+  payload?: T;
 }
 
 const WebViewContext = React.createContext<{

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, Switch } from "react-native";
 
 const SettingsRow = ({
