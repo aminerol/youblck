@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
+    backgroundColor: "white",
   },
   headline: {
     color: "#333333",

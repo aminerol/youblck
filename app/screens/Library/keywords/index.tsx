@@ -1,6 +1,7 @@
 import { isEmpty } from "lodash";
-import React from "react";
+import React, { useMemo } from "react";
 import { View } from "react-native";
+import Animated from "react-native-reanimated";
 import EmptyList from "../../../components/flatlist/empty";
 import FlatListEx from "../../../components/flatlist";
 import { RefreshState } from "../../../components/flatlist/types";
@@ -8,8 +9,19 @@ import TextInputEx from "../../../components/textinput";
 import KeywordItem from "./item";
 import useStorage, { Keyword } from "../../../storage";
 
-const Keywords = () => {
-  const { state, ready, unBlock, block, storage } = useStorage();
+const AnimatedFlatListEx = Animated.createAnimatedComponent(FlatListEx);
+
+const Keywords = ({
+  scrollHandler,
+  searchValue,
+}: {
+  scrollHandler: {
+    onScroll: (...args: any[]) => void;
+    scrollEventThrottle: number;
+  };
+  searchValue: string;
+}) => {
+  const { state, ready, unBlock, block } = useStorage();
   const listState = ready
     ? state.filterData.keywords.length === 0
       ? RefreshState.EmptyData
@@ -31,8 +43,15 @@ const Keywords = () => {
     />
   );
 
+  const data = useMemo(() => {
+    const filtredItems = state.filterData.keywords.filter((item: Keyword) => {
+      return item.keyword.toLowerCase().indexOf(searchValue) !== -1;
+    });
+    return isEmpty(searchValue) ? state.filterData.keywords : filtredItems;
+  }, [searchValue, state.filterData.keywords]);
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ marginBottom: 10 }}>
         <TextInputEx
           placeholderText="Add keyword"
@@ -44,12 +63,13 @@ const Keywords = () => {
           }}
         />
       </View>
-      <FlatListEx<Keyword>
-        data={state.filterData.keywords}
+      <AnimatedFlatListEx<Keyword>
+        data={data}
         renderItem={renderItem}
         refreshState={listState}
         loadingDataText="Loading blocked keywords....."
         emptyDataComponent={renderEmptyList}
+        {...scrollHandler}
       />
     </View>
   );

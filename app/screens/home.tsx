@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  Modal,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { Modal, StyleSheet, SafeAreaView } from "react-native";
 import { WebView } from "react-native-webview";
 import { WebViewMessageEvent } from "react-native-webview/lib/WebViewTypes";
+import { BorderlessButton } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import url from "url";
 import * as Linking from "expo-linking";
@@ -130,12 +125,19 @@ export default function Home() {
         visible={modalVisible}
         presentationStyle="formSheet"
       >
-        <TouchableOpacity
-          style={{ alignItems: "flex-end", marginVertical: 8, marginRight: 8 }}
+        <BorderlessButton
+          activeOpacity={1}
+          style={{
+            alignItems: "flex-end",
+            paddingVertical: 8,
+            marginRight: 8,
+            zIndex: 10,
+            backgroundColor: "white",
+          }}
           onPress={() => setModalVisible(false)}
         >
           <Ionicons name="close-circle-outline" size={26} />
-        </TouchableOpacity>
+        </BorderlessButton>
         <Library />
       </Modal>
     </SafeAreaView>

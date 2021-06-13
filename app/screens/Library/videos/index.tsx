@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { View } from "react-native";
+import Animated from "react-native-reanimated";
 import EmptyList from "../../../components/flatlist/empty";
 import FlatListEx from "../../../components/flatlist";
 import { RefreshState } from "../../../components/flatlist/types";
 import VideoItem from "./item";
 import { useWebView } from "../../../context/webview";
 import useStorage, { Video } from "../../../storage";
+import { isEmpty } from "lodash";
 
-const Videos = () => {
+const AnimatedFlatListEx = Animated.createAnimatedComponent(FlatListEx);
+
+const Videos = ({
+  scrollHandler,
+  searchValue,
+}: {
+  scrollHandler: {
+    onScroll: (...args: any[]) => void;
+    scrollEventThrottle: number;
+  };
+  searchValue: string;
+}) => {
   const { postMessage } = useWebView();
   const { state, ready, unBlock, storage } = useStorage();
   const listState = ready
@@ -36,14 +49,22 @@ const Videos = () => {
     />
   );
 
+  const data = useMemo(() => {
+    const filtredItems = state.filterData.videos.filter((item: Video) => {
+      return item.name.toLowerCase().indexOf(searchValue) !== -1;
+    });
+    return isEmpty(searchValue) ? state.filterData.videos : filtredItems;
+  }, [searchValue, state.filterData.videos]);
+
   return (
-    <View style={{ flex: 1 }}>
-      <FlatListEx<Video>
-        data={state.filterData.videos}
+    <View style={{ flex: 1, backgroundColor: "white", marginTop: 8 }}>
+      <AnimatedFlatListEx<Video>
+        data={data}
         renderItem={renderItem}
         refreshState={listState}
         loadingDataText="Loading blocked videos....."
         emptyDataComponent={renderEmptyList}
+        {...scrollHandler}
       />
     </View>
   );

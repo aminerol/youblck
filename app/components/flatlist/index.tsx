@@ -104,6 +104,7 @@ export default class FlatListEx<T extends { id: string }> extends PureComponent<
     } else if (this.props.refreshState === RefreshState.EmptyData) {
       body = (
         <TouchableOpacity
+          activeOpacity={1}
           style={footerContainerStyle}
           onPress={() => {
             this.props.onHeaderRefresh &&
