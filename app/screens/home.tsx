@@ -6,6 +6,7 @@ import { BorderlessButton } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import url from "url";
 import * as Linking from "expo-linking";
+import { some } from "lodash";
 
 import { getChannelInfo } from "../utils";
 import Library from "./Library";
@@ -22,7 +23,7 @@ const blockedUrls = [
 export default function Home() {
   const { ref: webView, updateStorage, setYtConfig, ytConfig } = useWebView();
   const [modalVisible, setModalVisible] = useState(false);
-  const { block, unBlock, ready, storage } = useStorage();
+  const { block, unBlock, ready, storage, state } = useStorage();
   const injectedJS = useLoadAssets(require("../build/out.txt"));
 
   useEffect(() => {
@@ -57,10 +58,12 @@ export default function Home() {
       } as Video;
 
       if (action === "BLOCK_CHANNEL") {
-        block(owner, "channels");
-        getChannelInfo(owner.id, ytConfig).then((info) =>
-          block({ ...owner, ...info }, "channels")
-        );
+        if (!some(state.filterData.channels, ["id", owner.id])) {
+          block(owner, "channels");
+          getChannelInfo(owner.id, ytConfig).then((info) =>
+            block({ ...owner, ...info }, "channels")
+          );
+        }
       }
       if (action === "BLOCK_VIDEO") {
         block(video, "videos");

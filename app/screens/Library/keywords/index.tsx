@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash";
+import { isEmpty, some } from "lodash";
 import React, { useMemo } from "react";
 import { View } from "react-native";
 import Animated from "react-native-reanimated";
@@ -56,7 +56,10 @@ const Keywords = ({
         <TextInputEx
           placeholderText="Add keyword"
           onSubmit={(query) => {
-            if (!isEmpty(query)) {
+            if (
+              !isEmpty(query) &&
+              !some(state.filterData.keywords, ["keyword", query])
+            ) {
               const title: Keyword = { keyword: query, id: query };
               block(title, "keywords");
             }
