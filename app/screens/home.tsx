@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, StyleSheet, SafeAreaView } from "react-native";
+import { Modal, StyleSheet, SafeAreaView, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { WebViewMessageEvent } from "react-native-webview/lib/WebViewTypes";
 import { BorderlessButton } from "react-native-gesture-handler";
@@ -13,6 +13,7 @@ import Library from "./Library";
 import { useWebView } from "../context/webview";
 import useStorage, { Channel, Video } from "../storage";
 import { useLoadAssets } from "../components/assets";
+import Settings from "./Setings";
 
 const blockedUrls = [
   "studio.youtube.com",
@@ -23,6 +24,7 @@ const blockedUrls = [
 export default function Home() {
   const { ref: webView, updateStorage, setYtConfig, ytConfig } = useWebView();
   const [modalVisible, setModalVisible] = useState(false);
+  const [settingsModal, setsettingsModal] = useState(false);
   const { block, unBlock, ready, storage, state } = useStorage();
   const injectedJS = useLoadAssets(require("../build/out.txt"));
 
@@ -128,20 +130,49 @@ export default function Home() {
         visible={modalVisible}
         presentationStyle="formSheet"
       >
-        <BorderlessButton
-          activeOpacity={1}
+        <View
           style={{
-            alignItems: "flex-end",
-            paddingVertical: 8,
-            marginRight: 8,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingVertical: 12,
+            marginHorizontal: 8,
             zIndex: 10,
             backgroundColor: "white",
           }}
-          onPress={() => setModalVisible(false)}
         >
-          <Ionicons name="close-circle-outline" size={26} />
-        </BorderlessButton>
+          <BorderlessButton
+            activeOpacity={1}
+            onPress={() => setModalVisible(false)}
+          >
+            <Ionicons name="arrow-back-outline" size={26} />
+          </BorderlessButton>
+          <BorderlessButton
+            activeOpacity={1}
+            onPress={() => setsettingsModal(true)}
+          >
+            <Ionicons name="settings-outline" size={26} />
+          </BorderlessButton>
+        </View>
         <Library />
+        <Modal
+          animationType="slide"
+          visible={settingsModal}
+          presentationStyle="formSheet"
+        >
+          <BorderlessButton
+            activeOpacity={1}
+            style={{
+              paddingVertical: 8,
+              marginHorizontal: 8,
+              zIndex: 10,
+              backgroundColor: "white",
+            }}
+            onPress={() => setsettingsModal(false)}
+          >
+            <Ionicons name="arrow-back-outline" size={26} />
+          </BorderlessButton>
+          <Settings />
+        </Modal>
       </Modal>
     </SafeAreaView>
   );

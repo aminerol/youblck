@@ -101,6 +101,16 @@ const useStorage = () => {
     }));
   };
 
+  const setOptions = async (value: boolean, type: "trending" | "mixes" | "suggestions_only") => {
+    await setState((state) => ({
+      ...state,
+      options: {
+        ...state.options,
+        [type]: value,
+      },
+    }));
+  };
+
   const storage = useMemo(
     () => ({
       ...state,
@@ -122,6 +132,7 @@ const useStorage = () => {
     state,
     storage,
     ready: isStateReady,
+    setOptions
   };
 };
 
