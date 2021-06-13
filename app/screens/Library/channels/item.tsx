@@ -40,10 +40,9 @@ class ChannelItem extends PureComponent<{
             {this.channel.name}
           </Text>
           <Text numberOfLines={2} style={styles.videoStats}>
-            {this.channel.subscriberCount +
-              " • " +
-              this.channel.videoCount +
-              " videos"}
+            {!this.channel.subscriberCount
+              ? this.channel.videoCount
+              : this.channel.subscriberCount + " • " + this.channel.videoCount}
           </Text>
         </View>
         <View style={{ justifyContent: "center" }}>
@@ -78,9 +77,9 @@ const styles = StyleSheet.create({
   },
   videoTitle: {
     color: "#333333",
-    fontSize: 14,
+    fontSize: 17,
     textAlign: "left",
-    lineHeight: 14 * 1.2,
+    lineHeight: 17 * 1.2,
     includeFontPadding: false,
   },
   videoDetails: {

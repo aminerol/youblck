@@ -25,7 +25,7 @@ const blockedUrls = [
 ];
 
 export default function Home() {
-  const { ref: webView, updateStorage } = useWebView();
+  const { ref: webView, updateStorage, setYtConfig, ytConfig } = useWebView();
   const [modalVisible, setModalVisible] = useState(false);
   const { block, unBlock, ready, storage } = useStorage();
   const injectedJS = useLoadAssets(require("../build/out.txt"));
@@ -63,7 +63,7 @@ export default function Home() {
 
       if (action === "BLOCK_CHANNEL") {
         block(owner, "channels");
-        getChannelInfo(owner.id).then((info) =>
+        getChannelInfo(owner.id, ytConfig).then((info) =>
           block({ ...owner, ...info }, "channels")
         );
       }
@@ -79,6 +79,9 @@ export default function Home() {
     }
     if (type === "loaded") {
       updateStorage(storage);
+    }
+    if (type === "config") {
+      setYtConfig(payload);
     }
     if (type === "error") {
       console.log(payload);
@@ -115,6 +118,11 @@ export default function Home() {
             }
             return true;
           }}
+          injectedJavaScript={`window.ReactNativeWebView.postMessage(JSON.stringify({
+            from: "YOUBLOCK",
+            type: "config",
+            payload: ytcfg.data_.INNERTUBE_CONTEXT.client
+          }), this);`}
         />
       )}
       <Modal

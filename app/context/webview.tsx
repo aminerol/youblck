@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import WebView from "react-native-webview";
 
 interface PostMessageProps<T> {
@@ -11,10 +11,13 @@ const WebViewContext = React.createContext<{
   ref: React.MutableRefObject<WebView<{}>>;
   postMessage: (props: PostMessageProps<{}>) => void;
   updateStorage: (storage: {}) => void;
+  ytConfig?: any;
+  setYtConfig?: (cfg: any) => void;
 }>({ ref: null, postMessage: () => {}, updateStorage: () => {} });
 
 export const WebViewProvider: React.FC = ({ children }) => {
   const webView = React.useRef<WebView>();
+  const [ytConfig, setYtConfig] = useState({});
 
   const postMessage = <T extends {}>({
     from = "YOUBLOCK",
@@ -40,7 +43,13 @@ export const WebViewProvider: React.FC = ({ children }) => {
 
   return (
     <WebViewContext.Provider
-      value={{ ref: webView, postMessage, updateStorage }}
+      value={{
+        ref: webView,
+        postMessage,
+        updateStorage,
+        ytConfig,
+        setYtConfig,
+      }}
     >
       {children}
     </WebViewContext.Provider>
