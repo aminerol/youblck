@@ -23,6 +23,7 @@ const SettingsRow = ({
         onValueChange={setToggled}
         trackColor={{ true: "#D52C43", false: "#d3d3d3" }}
         style={{ alignSelf: "center" }}
+        thumbColor="white"
       />
     </View>
   );
@@ -31,7 +32,7 @@ const SettingsRow = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    marginBottom: 12,
+    marginBottom: 24,
   },
   textView: {
     flex: 1,

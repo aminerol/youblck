@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Modal, StyleSheet, SafeAreaView, View } from "react-native";
+import {
+  Modal,
+  StyleSheet,
+  SafeAreaView,
+  View,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import { WebView } from "react-native-webview";
 import { WebViewMessageEvent } from "react-native-webview/lib/WebViewTypes";
-import { BorderlessButton } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import url from "url";
 import * as Linking from "expo-linking";
@@ -141,18 +147,12 @@ export default function Home() {
             backgroundColor: "white",
           }}
         >
-          <BorderlessButton
-            activeOpacity={1}
-            onPress={() => setModalVisible(false)}
-          >
+          <Pressable onPress={() => setModalVisible(false)}>
             <Ionicons name="arrow-back-outline" size={26} />
-          </BorderlessButton>
-          <BorderlessButton
-            activeOpacity={1}
-            onPress={() => setsettingsModal(true)}
-          >
+          </Pressable>
+          <Pressable onPress={() => setsettingsModal(true)}>
             <Ionicons name="settings-outline" size={26} />
-          </BorderlessButton>
+          </Pressable>
         </View>
         <Library />
         <Modal
@@ -160,8 +160,7 @@ export default function Home() {
           visible={settingsModal}
           presentationStyle="formSheet"
         >
-          <BorderlessButton
-            activeOpacity={1}
+          <TouchableOpacity
             style={{
               paddingVertical: 8,
               marginHorizontal: 8,
@@ -171,7 +170,7 @@ export default function Home() {
             onPress={() => setsettingsModal(false)}
           >
             <Ionicons name="arrow-back-outline" size={26} />
-          </BorderlessButton>
+          </TouchableOpacity>
           <Settings />
         </Modal>
       </Modal>

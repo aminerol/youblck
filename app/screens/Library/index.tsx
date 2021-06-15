@@ -1,10 +1,9 @@
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import React, { useCallback, useRef, useState } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import { Ionicons } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
-import { BorderlessButton } from "react-native-gesture-handler";
 import { isEmpty } from "lodash";
 import Slider, {
   SlideMap,
@@ -84,9 +83,9 @@ const Library = () => {
         </View>
         {!isEmpty(searchValue) ? (
           <View style={styles.searchClose}>
-            <BorderlessButton onPress={() => setSearchValue("")}>
+            <TouchableOpacity onPress={() => setSearchValue("")}>
               <Ionicons name="close" size={22} />
-            </BorderlessButton>
+            </TouchableOpacity>
           </View>
         ) : null}
       </Animated.View>

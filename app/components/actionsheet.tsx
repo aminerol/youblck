@@ -1,10 +1,7 @@
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import {
-  ActionSheetOptions,
-  useActionSheet,
-} from "@expo/react-native-action-sheet";
-import { BorderlessButton } from "react-native-gesture-handler";
+import { useActionSheet } from "@expo/react-native-action-sheet";
+import { TouchableOpacity } from "react-native";
 
 interface ActionSheetProps {
   cancelButtonIndex: number;
@@ -42,9 +39,9 @@ const ActionSheet = ({
   };
 
   return (
-    <BorderlessButton onPress={_onOpenActionSheet}>
+    <TouchableOpacity onPress={_onOpenActionSheet}>
       <Ionicons name="ellipsis-vertical" size={22} color="#030303" />
-    </BorderlessButton>
+    </TouchableOpacity>
   );
 };
 

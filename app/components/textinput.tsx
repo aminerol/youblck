@@ -5,8 +5,8 @@ import {
   StyleSheet,
   Platform,
   ColorValue,
+  TouchableOpacity,
 } from "react-native";
-import { BorderlessButton } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 
 interface TextInputProps {
@@ -58,13 +58,13 @@ export default class TextInputEx extends PureComponent<
         <View
           style={{ width: 50, alignItems: "center", justifyContent: "center" }}
         >
-          <BorderlessButton onPress={this._handleSubmit} style={{ padding: 5 }}>
+          <TouchableOpacity onPress={this._handleSubmit} style={{ padding: 5 }}>
             <Ionicons
               name="md-add"
               size={Platform.OS === "ios" ? 22 : 25}
               color="#030303"
             />
-          </BorderlessButton>
+          </TouchableOpacity>
         </View>
       </View>
     );
