@@ -6,6 +6,7 @@ import {
   View,
   Pressable,
   TouchableOpacity,
+  BackHandler,
 } from "react-native";
 import { WebView } from "react-native-webview";
 import { WebViewMessageEvent } from "react-native-webview/lib/WebViewTypes";
@@ -39,6 +40,17 @@ export default function Home() {
       updateStorage(storage);
     }
   }, [ready, storage]);
+
+  useEffect(() => {
+    function handleBackButton() {
+      webView.current.goBack();
+      return true;
+    }
+    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
+    };
+  }, []);
 
   const onMessage = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
