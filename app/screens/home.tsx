@@ -142,6 +142,15 @@ export default function Home() {
             type: "config",
             payload: ytcfg.data_.INNERTUBE_CONTEXT.client
           }), this);`}
+          onNavigationStateChange={(navState) => {
+            const redirectTo = url.parse(navState.url, true);
+            if (
+              redirectTo.query.action === "OPEN_LIBRARY" &&
+              navState.loading
+            ) {
+              webView.current.goBack();
+            }
+          }}
         />
       )}
       <Modal
