@@ -99,6 +99,7 @@ export default function Home() {
           ref={webView}
           source={{ uri: "https://m.youtube.com/" }}
           javaScriptEnabled={true}
+          allowsInlineMediaPlayback
           injectedJavaScriptBeforeContentLoaded={injectedJS}
           onMessage={onMessage}
           allowsBackForwardNavigationGestures={true}
