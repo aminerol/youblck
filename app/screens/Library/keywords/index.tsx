@@ -1,15 +1,12 @@
 import { isEmpty, some } from "lodash";
 import React, { useMemo } from "react";
 import { View } from "react-native";
-import Animated from "react-native-reanimated";
 import EmptyList from "../../../components/flatlist/empty";
 import FlatListEx from "../../../components/flatlist";
 import { RefreshState } from "../../../components/flatlist/types";
 import TextInputEx from "../../../components/textinput";
 import KeywordItem from "./item";
 import useStorage, { Keyword } from "../../../storage";
-
-const AnimatedFlatListEx = Animated.createAnimatedComponent(FlatListEx);
 
 const Keywords = ({
   scrollHandler,
@@ -66,7 +63,7 @@ const Keywords = ({
           }}
         />
       </View>
-      <AnimatedFlatListEx<Keyword>
+      <FlatListEx<Keyword>
         data={data}
         renderItem={renderItem}
         refreshState={listState}

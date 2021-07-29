@@ -11,7 +11,9 @@ import {
   FlatListProps,
 } from "react-native";
 import { FlatListExProps, RefreshState } from "./types";
+import Animated from "react-native-reanimated";
 
+const AnimatedFlatListEx = Animated.createAnimatedComponent(FlatList);
 export default class FlatListEx<T extends { id: string }> extends PureComponent<
   FlatListExProps & FlatListProps<T>
 > {
@@ -120,7 +122,7 @@ export default class FlatListEx<T extends { id: string }> extends PureComponent<
       );
     } else {
       body = (
-        <FlatList<T>
+        <AnimatedFlatListEx<T>
           onScroll={this.onScroll}
           onRefresh={this.onHeaderRefresh}
           refreshing={this.props.refreshState === RefreshState.HeaderRefreshing}

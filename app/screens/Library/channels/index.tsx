@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { View } from "react-native";
-import Animated from "react-native-reanimated";
 import EmptyList from "../../../components/flatlist/empty";
 import FlatListEx from "../../../components/flatlist";
 import { RefreshState } from "../../../components/flatlist/types";
@@ -8,8 +7,6 @@ import ChannelItem from "./item";
 import { useWebView } from "../../../context/webview";
 import useStorage, { Channel } from "../../../storage";
 import { isEmpty } from "lodash";
-
-const AnimatedFlatListEx = Animated.createAnimatedComponent(FlatListEx);
 
 const Channels = ({
   scrollHandler,
@@ -58,7 +55,7 @@ const Channels = ({
 
   return (
     <View style={{ flex: 1, backgroundColor: "white", marginTop: 8 }}>
-      <AnimatedFlatListEx<Channel>
+      <FlatListEx<Channel>
         data={data}
         renderItem={renderItem}
         refreshState={listState}
