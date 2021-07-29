@@ -157,17 +157,6 @@ function main() {
       });
       GlobalVars.tabAdded = true;
     }
-
-    setInterval(() => {
-      const openApp = document.getElementsByClassName("open-app-button");
-      if (openApp && openApp[0]) {
-        openApp[0].remove();
-      }
-
-      if (GlobalVars.storageData.options.trending) {
-        removeTrendingTab();
-      }
-    }, 200);
   });
 
   window.addEventListener("state-navigateend", (e: any) => {
@@ -185,6 +174,25 @@ function main() {
       );
     }
   });
+
+  setInterval(function () {
+    if (GlobalVars.storageData.options.trending) {
+      removeTrendingTab();
+    }
+  }, 50);
+  setInterval(function () {
+    const openApp = document.getElementsByClassName("open-app-button");
+    if (openApp && openApp[0]) {
+      openApp[0].remove();
+    }
+
+    const openAppKids = document.getElementsByTagName(
+      "ytm-watch-metadata-app-promo-renderer"
+    );
+    if (openAppKids && openAppKids[0]) {
+      openAppKids[0].remove();
+    }
+  }, 200);
 
   window.postMessage(
     JSON.stringify({
