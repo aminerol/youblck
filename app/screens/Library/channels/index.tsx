@@ -5,7 +5,7 @@ import FlatListEx from "../../../components/flatlist";
 import { RefreshState } from "../../../components/flatlist/types";
 import ChannelItem from "./item";
 import { useWebView } from "../../../context/webview";
-import useStorage, { Channel } from "../../../storage";
+import useStorage, { Channel } from "../../../utils/storage";
 import { isEmpty } from "lodash";
 
 const Channels = ({

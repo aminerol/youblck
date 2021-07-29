@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { useWebView } from "../../context/webview";
-import useStorage from "../../storage";
+import useStorage from "../../utils/storage";
 import SettingsRow from "./item";
 
 const Settings = () => {

@@ -5,7 +5,7 @@ import FlatListEx from "../../../components/flatlist";
 import { RefreshState } from "../../../components/flatlist/types";
 import VideoItem from "./item";
 import { useWebView } from "../../../context/webview";
-import useStorage, { Video } from "../../../storage";
+import useStorage, { Video } from "../../../utils/storage";
 import { isEmpty } from "lodash";
 
 const Videos = ({

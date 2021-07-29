@@ -6,7 +6,7 @@ import FlatListEx from "../../../components/flatlist";
 import { RefreshState } from "../../../components/flatlist/types";
 import TextInputEx from "../../../components/textinput";
 import KeywordItem from "./item";
-import useStorage, { Keyword } from "../../../storage";
+import useStorage, { Keyword } from "../../../utils/storage";
 
 const Keywords = ({
   scrollHandler,

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import Tap from "../../../components/tap";
-import { Channel, Video } from "../../../storage";
+import { Channel, Video } from "../../../utils/storage";
 import ActionSheet from "../../../components/actionsheet";
 
 class VideoItem extends PureComponent<{

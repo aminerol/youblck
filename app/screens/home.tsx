@@ -21,7 +21,7 @@ import { getChannelInfo } from "../utils/youtube";
 import { captureException } from "../utils/sentry";
 import Library from "./Library";
 import { useWebView } from "../context/webview";
-import useStorage, { Channel, Video } from "../storage";
+import useStorage, { Channel, Video } from "../utils/storage";
 import { useLoadAssets } from "../components/assets";
 import Settings from "./Setings";
 import RefreshWebView from "../components/webview";
