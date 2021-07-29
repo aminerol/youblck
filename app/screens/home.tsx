@@ -17,7 +17,8 @@ import * as Linking from "expo-linking";
 import { some } from "lodash";
 import * as Sentry from "sentry-expo";
 
-import { captureException, getChannelInfo } from "../utils";
+import { getChannelInfo } from "../utils/youtube";
+import { captureException } from "../utils/sentry";
 import Library from "./Library";
 import { useWebView } from "../context/webview";
 import useStorage, { Channel, Video } from "../storage";
