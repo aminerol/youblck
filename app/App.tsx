@@ -3,8 +3,11 @@ import { StatusBar } from "react-native";
 import { WebViewProvider } from "./context/webview";
 import { StateProvider } from "./storage";
 import Home from "./screens/home";
+import { enableSentry, setJSExceptionHandler } from "./utils";
 
 export default function App() {
+  enableSentry();
+  setJSExceptionHandler();
   return (
     <StateProvider>
       <WebViewProvider>

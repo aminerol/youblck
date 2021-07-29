@@ -7,6 +7,7 @@ import {
   Pressable,
   TouchableOpacity,
   BackHandler,
+  Platform,
 } from "react-native";
 import { WebView } from "react-native-webview";
 import { WebViewMessageEvent } from "react-native-webview/lib/WebViewTypes";
@@ -14,15 +15,15 @@ import { Ionicons } from "@expo/vector-icons";
 import url from "url";
 import * as Linking from "expo-linking";
 import { some } from "lodash";
+import * as Sentry from "sentry-expo";
 
-import { getChannelInfo } from "../utils";
+import { captureException, getChannelInfo } from "../utils";
 import Library from "./Library";
 import { useWebView } from "../context/webview";
 import useStorage, { Channel, Video } from "../storage";
 import { useLoadAssets } from "../components/assets";
 import Settings from "./Setings";
 import RefreshWebView from "../components/webview";
-import { Platform } from "react-native";
 
 const blockedUrls = [
   "studio.youtube.com",
@@ -82,9 +83,11 @@ export default function Home() {
       if (action === "BLOCK_CHANNEL") {
         if (!some(state.filterData.channels, ["id", owner.id])) {
           block(owner, "channels");
-          getChannelInfo(owner.id, ytConfig).then((info) =>
-            block({ ...owner, ...info }, "channels")
-          );
+          getChannelInfo(owner.id, ytConfig).then((info) => {
+            if (info) {
+              block({ ...owner, ...info }, "channels");
+            }
+          });
         }
       }
       if (action === "BLOCK_VIDEO") {
@@ -104,7 +107,7 @@ export default function Home() {
       setYtConfig(payload);
     }
     if (type === "error") {
-      console.log(payload);
+      captureException(payload, "core");
     }
   };
 
