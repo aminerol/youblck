@@ -21,6 +21,8 @@ import { useWebView } from "../context/webview";
 import useStorage, { Channel, Video } from "../storage";
 import { useLoadAssets } from "../components/assets";
 import Settings from "./Setings";
+import RefreshWebView from "../components/webview";
+import { Platform } from "react-native";
 
 const blockedUrls = [
   "studio.youtube.com",
@@ -110,10 +112,12 @@ export default function Home() {
     return null;
   }
 
+  const WebViewEx = Platform.OS === "ios" ? WebView : RefreshWebView;
+
   return (
     <SafeAreaView style={styles.container}>
       {ready && (
-        <WebView
+        <WebViewEx
           ref={webView}
           source={{ uri: "https://m.youtube.com/" }}
           javaScriptEnabled={true}
