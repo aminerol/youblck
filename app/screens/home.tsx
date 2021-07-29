@@ -140,7 +140,7 @@ export default function Home() {
           injectedJavaScript={`window.ReactNativeWebView.postMessage(JSON.stringify({
             from: "YOUBLOCK",
             type: "config",
-            payload: ytcfg.data_.INNERTUBE_CONTEXT.client
+            payload: yt.config_.INNERTUBE_CONTEXT.client
           }), this);`}
           onNavigationStateChange={(navState) => {
             const redirectTo = url.parse(navState.url, true);
