@@ -44,7 +44,6 @@ async function getChannelInfoInnerAPI(channelId: string, config: any) {
 
 async function getChannelInfoAPI(channelId: string) {
   try {
-    ("");
     const response = await fetch(
       `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,id&id=${channelId}&key=${API_KEY}`,
       {

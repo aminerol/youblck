@@ -13,7 +13,11 @@
       "supportsTablet": true
     },
     "description": "YouBlock - an app for blocking videos and channels from showing up on youtube app",
-    "assetBundlePatterns": ["**/*"]
+    "assetBundlePatterns": ["**/*"],
+    "androidStatusBar": {
+      "barStyle": "dark-content",
+      "backgroundColor": "#FFFFFF"
+    }
   },
   "displayName": "You Block",
   "name": "YouBlock"
