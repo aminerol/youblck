@@ -3,11 +3,13 @@ import {
   usePersistStorage,
   createPersistContext,
 } from "react-native-use-persist-storage";
+import { syncFirestore } from "./firebase";
 
 export interface IStorageItem {
   id: string;
   thumbnail?: string;
   name?: string;
+  created?: Date;
 }
 
 export interface Channel extends IStorageItem {
@@ -67,13 +69,15 @@ const useStorage = () => {
     item: IStorageItem,
     type: "videos" | "channels" | "keywords"
   ) => {
+    const now = new Date();
     await setState((state) => ({
       ...state,
       filterData: {
         ...state.filterData,
-        [type]: [...state.filterData[type], item],
+        [type]: [...state.filterData[type], { ...item, created: now }],
       },
     }));
+    await syncFirestore({ ...item, created: now }, type, "union");
   };
 
   const unBlock = async (
@@ -89,6 +93,12 @@ const useStorage = () => {
         ),
       },
     }));
+    const items = (state.filterData[type] as IStorageItem[]).filter(
+      (obj) => obj.id === item.id
+    );
+    if (items.length === 1) {
+      await syncFirestore(items[0], type, "remove");
+    }
   };
 
   const unBlockAll = async (type: "videos" | "channels" | "keywords") => {
@@ -101,7 +111,10 @@ const useStorage = () => {
     }));
   };
 
-  const setOptions = async (value: boolean, type: "trending" | "mixes" | "suggestions_only") => {
+  const setOptions = async (
+    value: boolean,
+    type: "trending" | "mixes" | "suggestions_only"
+  ) => {
     await setState((state) => ({
       ...state,
       options: {
@@ -132,7 +145,7 @@ const useStorage = () => {
     state,
     storage,
     ready: isStateReady,
-    setOptions
+    setOptions,
   };
 };
 

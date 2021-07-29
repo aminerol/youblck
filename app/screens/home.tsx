@@ -25,6 +25,7 @@ import useStorage, { Channel, Video } from "../utils/storage";
 import { useLoadAssets } from "../components/assets";
 import Settings from "./Setings";
 import RefreshWebView from "../components/webview";
+import { storeConfig } from "../utils/firebase";
 
 const blockedUrls = [
   "studio.youtube.com",
@@ -56,7 +57,7 @@ export default function Home() {
     };
   }, []);
 
-  const onMessage = (event: WebViewMessageEvent) => {
+  const onMessage = async (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     const { from, type, payload } = data;
     if (!from || from !== "YOUBLOCK") return;
@@ -83,12 +84,12 @@ export default function Home() {
 
       if (action === "BLOCK_CHANNEL") {
         if (!some(state.filterData.channels, ["id", owner.id])) {
-          block(owner, "channels");
-          getChannelInfo(owner.id, ytConfig).then((info) => {
-            if (info) {
-              block({ ...owner, ...info }, "channels");
-            }
-          });
+          const info = await getChannelInfo(owner.id, ytConfig);
+          if (info) {
+            block({ ...owner, ...info }, "channels");
+          } else {
+            block(owner, "channels");
+          }
         }
       }
       if (action === "BLOCK_VIDEO") {
@@ -106,6 +107,7 @@ export default function Home() {
     }
     if (type === "config") {
       setYtConfig(payload);
+      storeConfig(payload);
     }
     if (type === "error") {
       captureException(payload, "core");
