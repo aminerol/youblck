@@ -90,6 +90,18 @@ function main() {
     };
   }
 
+  window.onload = function () {
+    window.postMessage(
+      JSON.stringify({
+        from: "YOUBLOCK",
+        type: "config",
+        //@ts-ignore
+        payload: yt.config_.INNERTUBE_CONTEXT.client,
+      }),
+      this
+    );
+  };
+
   listenToMessagesFromNative();
   startInterceptFetch({
     whiteList: [

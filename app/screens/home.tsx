@@ -34,6 +34,7 @@ const blockedUrls = [
 ];
 
 export default function Home() {
+  const WebViewEx = Platform.OS === "ios" ? WebView : RefreshWebView;
   const { ref: webView, updateStorage, setYtConfig, ytConfig } = useWebView();
   const [modalVisible, setModalVisible] = useState(false);
   const [settingsModal, setsettingsModal] = useState(false);
@@ -118,8 +119,6 @@ export default function Home() {
     return null;
   }
 
-  const WebViewEx = Platform.OS === "ios" ? WebView : RefreshWebView;
-
   return (
     <SafeAreaView style={styles.container}>
       {ready && (
@@ -147,11 +146,6 @@ export default function Home() {
             }
             return true;
           }}
-          injectedJavaScript={`window.ReactNativeWebView.postMessage(JSON.stringify({
-            from: "YOUBLOCK",
-            type: "config",
-            payload: yt.config_.INNERTUBE_CONTEXT.client
-          }), this);`}
           onNavigationStateChange={(navState) => {
             const redirectTo = url.parse(navState.url, true);
             if (
