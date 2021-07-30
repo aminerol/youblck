@@ -11,9 +11,19 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.youblock"
+      "bundleIdentifier": "com.youblock",
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-8280304373074480~5130464916",
+        "googleMobileAdsAutoInit": true
+      }
     },
-    "android": { "package": "com.youblock" },
+    "android": {
+      "package": "com.youblock",
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-8280304373074480~6120112952",
+        "googleMobileAdsAutoInit": true
+      }
+    },
     "description": "YouBlock - an app for blocking videos and channels from showing up on youtube app",
     "assetBundlePatterns": ["**/*"],
     "androidStatusBar": {
