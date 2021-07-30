@@ -4,6 +4,8 @@ import { ObjectFilter } from "./filter";
 import { startInterceptFetch } from "./intercept";
 import { compileAll, transformToRegExp } from "./pre-main";
 import { blockTrending, removeTrendingTab } from "./filter-utils";
+import firebase from "@firebase/app";
+import "@firebase/analytics";
 
 function injectFetch(resp, url) {
   if (
@@ -201,6 +203,16 @@ function main() {
     }),
     this
   );
+
+  firebase.initializeApp({
+    apiKey: "AIzaSyCHjQG1n_F8PdciEAr7WodbOR-dimT2Nus",
+    authDomain: "youblock-44c9c.firebaseapp.com",
+    projectId: "youblock-44c9c",
+    storageBucket: "youblock-44c9c.appspot.com",
+    messagingSenderId: "519721661437",
+    appId: "1:519721661437:web:cd8a9456ed3b24d83fdf94",
+    measurementId: "G-JDE9NS2TQW",
+  });
 }
 
 main();
