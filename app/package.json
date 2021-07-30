@@ -4,6 +4,7 @@
     "@expo/react-native-action-sheet": "^3.9.0",
     "@expo/vector-icons": "^12.0.0",
     "@react-native-async-storage/async-storage": "^1.13.0",
+    "date-fns": "^2.23.0",
     "expo": "^41.0.0",
     "expo-ads-admob": "~10.0.4",
     "expo-application": "~3.1.2",

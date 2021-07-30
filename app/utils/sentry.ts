@@ -19,6 +19,14 @@ export function captureException(payload: any, module: "app" | "core") {
   }
 }
 
+export function addBreadcrumb(breadcrumb: Sentry.Native.Breadcrumb) {
+  if (!__DEV__) {
+    Sentry.Native.addBreadcrumb(breadcrumb);
+  } else {
+    console.log(breadcrumb);
+  }
+}
+
 export const setJSExceptionHandler = (allowedInDevMode = false) => {
   if (typeof allowedInDevMode !== "boolean") {
     console.log(

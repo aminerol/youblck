@@ -16,7 +16,9 @@ export async function initFirebase() {
       appId: "1:519721661437:web:cd8a9456ed3b24d83fdf94",
       measurementId: "G-JDE9NS2TQW",
     };
-    firebase.initializeApp(firebaseConfig);
+    if (firebase.apps.length === 0) {
+      firebase.initializeApp(firebaseConfig);
+    }
     await firebase.auth().signInAnonymously();
   } catch (error) {
     captureException(error, "app");

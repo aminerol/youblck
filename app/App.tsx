@@ -5,6 +5,7 @@ import { StateProvider } from "./utils/storage";
 import Home from "./screens/home";
 import { enableSentry, setJSExceptionHandler } from "./utils/sentry";
 import { initFirebase } from "./utils/firebase";
+import useUpdate from "./hooks/useUpdate";
 
 export default function App() {
   useEffect(() => {
@@ -15,6 +16,9 @@ export default function App() {
     }
     init();
   }, []);
+
+  useUpdate();
+
   return (
     <StateProvider>
       <WebViewProvider>
