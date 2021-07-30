@@ -64,3 +64,12 @@ export async function syncFirestore(
     captureException(error, "app");
   }
 }
+
+export async function getRemoteConfig() {
+  try {
+    return await firebase.firestore().collection("config").doc("main").get();
+  } catch (error) {
+    captureException(error, "app");
+    return undefined;
+  }
+}

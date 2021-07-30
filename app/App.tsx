@@ -8,9 +8,12 @@ import { initFirebase } from "./utils/firebase";
 
 export default function App() {
   useEffect(() => {
-    enableSentry();
-    setJSExceptionHandler();
-    initFirebase();
+    async function init() {
+      await enableSentry();
+      setJSExceptionHandler();
+      await initFirebase();
+    }
+    init();
   }, []);
   return (
     <StateProvider>
