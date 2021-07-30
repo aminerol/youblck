@@ -10,8 +10,10 @@
       "fallbackToCacheTimeout": 0
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.youblock"
     },
+    "android": { "package": "com.youblock" },
     "description": "YouBlock - an app for blocking videos and channels from showing up on youtube app",
     "assetBundlePatterns": ["**/*"],
     "androidStatusBar": {
