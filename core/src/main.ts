@@ -100,6 +100,35 @@ function main() {
       }),
       this
     );
+
+    setInterval(() => {
+      if (!GlobalVars.tabAdded) {
+        const tabs = document.getElementsByTagName("ytm-pivot-bar-renderer")[0] //@ts-ignore
+          .data.items;
+        tabs.splice(Math.round(tabs.length / 2), 0, {
+          pivotBarItemRenderer: {
+            navigationEndpoint: {
+              commandMetadata: {
+                webCommandMetadata: {
+                  url: "/youblock?action=OPEN_LIBRARY",
+                },
+              },
+            },
+            title: {
+              runs: [
+                {
+                  text: "Blocked",
+                },
+              ],
+            },
+            icon: {
+              iconType: "SHIELD",
+            },
+          },
+        });
+        GlobalVars.tabAdded = true;
+      }
+    }, 100);
   };
 
   listenToMessagesFromNative();
@@ -141,35 +170,6 @@ function main() {
       GlobalVars.storageData.options.trending
     ) {
       blockTrending();
-    }
-  });
-
-  window.addEventListener("state-navigateend", (e: any) => {
-    if (!GlobalVars.tabAdded) {
-      const tabs = document.getElementsByTagName("ytm-pivot-bar-renderer")[0] //@ts-ignore
-        .data.items;
-      tabs.splice(Math.round(tabs.length / 2), 0, {
-        pivotBarItemRenderer: {
-          navigationEndpoint: {
-            commandMetadata: {
-              webCommandMetadata: {
-                url: "/youblock?action=OPEN_LIBRARY",
-              },
-            },
-          },
-          title: {
-            runs: [
-              {
-                text: "Blocked",
-              },
-            ],
-          },
-          icon: {
-            iconType: "SHIELD",
-          },
-        },
-      });
-      GlobalVars.tabAdded = true;
     }
   });
 
