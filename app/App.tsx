@@ -6,6 +6,7 @@ import Home from "./screens/home";
 import { enableSentry, setJSExceptionHandler } from "./utils/sentry";
 import { initFirebase } from "./utils/firebase";
 import useUpdate from "./hooks/useUpdate";
+import { initNotifications } from "./utils/notifications";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
@@ -15,6 +16,7 @@ export default function App() {
       await enableSentry();
       setJSExceptionHandler();
       await initFirebase();
+      await initNotifications();
     }
     init();
   }, []);

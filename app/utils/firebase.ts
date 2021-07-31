@@ -24,10 +24,28 @@ export async function storeConfig(config: any) {
       .firestore()
       .collection("users")
       .doc(currentUser.uid)
-      .set({
-        ...config,
+      .set(
+        {
+          ...config,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true }
+      );
+  } catch (error) {
+    captureException(error, "app");
+  }
+}
+
+export async function storeNotificationToken(notificationToken: string) {
+  try {
+    const { currentUser } = firebase.auth();
+    await firebase.firestore().collection("users").doc(currentUser.uid).set(
+      {
+        notificationToken,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      });
+      },
+      { merge: true }
+    );
   } catch (error) {
     captureException(error, "app");
   }
