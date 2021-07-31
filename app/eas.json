@@ -1,0 +1,13 @@
+{
+  "builds": {
+    "ios": {
+      "release": {
+        "workflow": "managed"
+      },
+      "preview": {
+        "workflow": "managed",
+        "distribution": "simulator"
+      }
+    }
+  }
+}
