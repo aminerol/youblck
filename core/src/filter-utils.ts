@@ -145,7 +145,7 @@ export function addContextMenus(obj) {
   const attr = contextMenuObjects.find((e) =>
     Object.prototype.hasOwnProperty.call(obj, e)
   );
-  if (attr === undefined) return;
+  if (attr === undefined || attr === "commentRenderer") return;
 
   let items;
   let hasChannel = false;
@@ -155,10 +155,6 @@ export function addContextMenus(obj) {
     hasChannel = true;
     hasVideo = true;
   } else if (Object.prototype.hasOwnProperty.call(obj[attr], "actionMenu")) {
-    items = obj[attr].actionMenu.menuRenderer.items;
-    hasChannel = true;
-  } else if (attr === "commentRenderer") {
-    obj[attr].actionMenu = { menuRenderer: { items: [] } };
     items = obj[attr].actionMenu.menuRenderer.items;
     hasChannel = true;
   } else {
