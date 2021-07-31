@@ -52,3 +52,4 @@ xcuserdata
 .history/
 app/assets/js/out.js
 build
+.env.*

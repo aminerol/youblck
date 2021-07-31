@@ -11,16 +11,12 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.youblock",
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-8280304373074480~5130464916",
         "googleMobileAdsAutoInit": true
       }
     },
     "android": {
-      "package": "com.youblock",
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-8280304373074480~6120112952",
         "googleMobileAdsAutoInit": true
       }
     },
@@ -29,19 +25,6 @@
     "androidStatusBar": {
       "barStyle": "dark-content",
       "backgroundColor": "#FFFFFF"
-    },
-    "hooks": {
-      "postPublish": [
-        {
-          "file": "sentry-expo/upload-sourcemaps",
-          "config": {
-            "organization": "you-block",
-            "project": "you-block-app",
-            "authToken": "6b448a29bf9249049f468f291be110e1a4fa77af0f8341bea9b58b497bb2ef99",
-            "setCommits": true
-          }
-        }
-      ]
     }
   },
   "displayName": "You Block",

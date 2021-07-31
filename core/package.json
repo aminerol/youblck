@@ -4,15 +4,19 @@
   "description": "",
   "scripts": {
     "uglify": "uglifyjs --mangle --compress --output ../app/build/out.txt -- ./build/out.js",
-    "watch": "esbuild src/main.ts --bundle --loader:.ts=ts --loader:.js=js --outfile=../app/build/out.txt --watch",
-    "build": "esbuild src/main.ts --bundle --loader:.ts=ts --loader:.js=js --outfile=./build/out.js && yarn uglify"
+    "watch:staging": "node ./esbuild.js --env=staging --outfile=../app/build/out.txt --watch",
+    "build:staging": "node ./esbuild.js --env=staging --outfile=./build/out.js --no-watch && yarn uglify",
+    "watch:production": "node ./esbuild.js --env=production --outfile=../app/build/out.txt --watch",
+    "build:production": "node ./esbuild.js --env=production --outfile=./build/out.js --no-watch && yarn uglify"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^15.12.1",
+    "dotenv": "^10.0.0",
     "esbuild": "^0.12.6",
-    "uglify-js": "^3.13.9"
+    "uglify-js": "^3.13.9",
+    "yargs": "^17.0.1"
   },
   "dependencies": {
     "@firebase/analytics": "^0.6.16",

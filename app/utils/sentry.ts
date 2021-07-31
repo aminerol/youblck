@@ -1,13 +1,13 @@
 import * as Sentry from "sentry-expo";
-
-const SENTRY_DSN =
-  "https://c7ed2926fa9646f2a02c9e3598ed3368@o935202.ingest.sentry.io/5884910";
+import { config } from "./config";
 
 export async function enableSentry() {
   Sentry.init({
-    dsn: SENTRY_DSN,
+    dsn: config.sentryDsn,
     enableInExpoDevelopment: false,
     debug: __DEV__,
+    environment: config.appEnv,
+    enableAutoSessionTracking: true,
   });
 }
 

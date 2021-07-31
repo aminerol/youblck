@@ -217,13 +217,13 @@ function main() {
   );
 
   firebase.initializeApp({
-    apiKey: "AIzaSyCHjQG1n_F8PdciEAr7WodbOR-dimT2Nus",
-    authDomain: "youblock-44c9c.firebaseapp.com",
-    projectId: "youblock-44c9c",
-    storageBucket: "youblock-44c9c.appspot.com",
-    messagingSenderId: "519721661437",
-    appId: "1:519721661437:web:cd8a9456ed3b24d83fdf94",
-    measurementId: "G-JDE9NS2TQW",
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID,
+    measurementId: process.env.FIREBASE_MEASUREMENT_ID,
   });
 }
 

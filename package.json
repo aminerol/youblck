@@ -1,8 +1,11 @@
 {
   "private": true,
   "scripts": {
-    "app": "cd app && yarn start && cd ..",
-    "core:build": "cd core && yarn build && cd ..",
-    "core:watch": "cd core && yarn watch && cd .."
+    "app:staging": "cd app && yarn start:staging && cd ..",
+    "app:production": "cd app && yarn start:production && cd ..",
+    "core:build:staging": "cd core && yarn build:staging && cd ..",
+    "core:watch:staging": "cd core && yarn watch:staging && cd ..",
+    "core:build:production": "cd core && yarn build:production && cd ..",
+    "core:watch:production": "cd core && yarn watch:production && cd .."
   }
 }

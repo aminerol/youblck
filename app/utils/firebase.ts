@@ -4,20 +4,12 @@ import "firebase/firestore";
 
 import { IStorageItem } from "./storage";
 import { captureException } from "./sentry";
+import { config } from "./config";
 
 export async function initFirebase() {
   try {
-    const firebaseConfig = {
-      apiKey: "AIzaSyCHjQG1n_F8PdciEAr7WodbOR-dimT2Nus",
-      authDomain: "youblock-44c9c.firebaseapp.com",
-      projectId: "youblock-44c9c",
-      storageBucket: "youblock-44c9c.appspot.com",
-      messagingSenderId: "519721661437",
-      appId: "1:519721661437:web:cd8a9456ed3b24d83fdf94",
-      measurementId: "G-JDE9NS2TQW",
-    };
     if (firebase.apps.length === 0) {
-      firebase.initializeApp(firebaseConfig);
+      firebase.initializeApp(config.firebase);
     }
     await firebase.auth().signInAnonymously();
   } catch (error) {
