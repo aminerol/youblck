@@ -6,7 +6,8 @@
       },
       "preview": {
         "workflow": "managed",
-        "distribution": "simulator"
+        "distribution": "simulator",
+        "releaseChannel": "staging"
       }
     }
   }
