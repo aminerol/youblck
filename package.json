@@ -3,9 +3,13 @@
   "scripts": {
     "app:staging": "cd app && yarn start:staging && cd ..",
     "app:production": "cd app && yarn start:production && cd ..",
+    "app:publish:staging": "cd app && yarn publish:staging && cd ..",
+    "app:publish:production": "cd app && yarn publish:production && cd ..",
     "core:build:staging": "cd core && yarn build:staging && cd ..",
     "core:watch:staging": "cd core && yarn watch:staging && cd ..",
     "core:build:production": "cd core && yarn build:production && cd ..",
-    "core:watch:production": "cd core && yarn watch:production && cd .."
+    "core:watch:production": "cd core && yarn watch:production && cd ..",
+    "publish:staging": "yarn core:build:staging && yarn app:publish:staging",
+    "publish:production": "yarn core:build:production && yarn app:publish:production"
   }
 }

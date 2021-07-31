@@ -53,3 +53,4 @@ xcuserdata
 app/assets/js/out.js
 build
 .env.*
+firestore.rules
