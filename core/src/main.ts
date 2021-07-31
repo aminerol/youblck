@@ -126,6 +126,7 @@ function main() {
             },
           },
         });
+        window.dispatchEvent(new CustomEvent("updateui"));
         GlobalVars.tabAdded = true;
       }
     }, 100);
