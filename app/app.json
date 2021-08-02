@@ -19,6 +19,9 @@
       "supportsTablet": true,
       "config": {
         "googleMobileAdsAutoInit": true
+      },
+      "infoPlist": {
+        "NSUserTrackingUsageDescription": "Your data will be used to deliver personalized ads to you"
       }
     },
     "android": {
