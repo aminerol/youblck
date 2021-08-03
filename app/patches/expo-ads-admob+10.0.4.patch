@@ -1,0 +1,71 @@
+diff --git a/node_modules/expo-ads-admob/ios/EXAdsAdMob/EXAdsAdMobAppTrackingPermissionRequester.m b/node_modules/expo-ads-admob/ios/EXAdsAdMob/EXAdsAdMobAppTrackingPermissionRequester.m
+index 37a210b..34bfc38 100644
+--- a/node_modules/expo-ads-admob/ios/EXAdsAdMob/EXAdsAdMobAppTrackingPermissionRequester.m
++++ b/node_modules/expo-ads-admob/ios/EXAdsAdMob/EXAdsAdMobAppTrackingPermissionRequester.m
+@@ -1,7 +1,12 @@
+ // Copyright 2017-present 650 Industries. All rights reserved.
++#if __has_include(<AppTrackingTransparency/ATTrackingManager.h>) || __has_include("ATTrackingManager.h")
++#define AppTransparencyFound
++#endif
+ 
+ #import <EXAdsAdMob/EXAdsAdMobAppTrackingPermissionRequester.h>
++#ifdef AppTransparencyFound
+ #import <AppTrackingTransparency/ATTrackingManager.h>
++#endif
+ 
+ @implementation EXAdsAdMobAppTrackingPermissionRequester
+ 
+@@ -15,19 +20,21 @@ - (NSDictionary *)getPermissions
+   UMPermissionStatus status;
+   
+   if (@available(iOS 14, *)) {
+-    ATTrackingManagerAuthorizationStatus systemStatus = [ATTrackingManager trackingAuthorizationStatus];
+-    switch (systemStatus) {
+-      case ATTrackingManagerAuthorizationStatusAuthorized:
+-        status = UMPermissionStatusGranted;
+-        break;
+-      case ATTrackingManagerAuthorizationStatusNotDetermined:
+-        status = UMPermissionStatusUndetermined;
+-        break;
+-      case ATTrackingManagerAuthorizationStatusRestricted:
+-      case ATTrackingManagerAuthorizationStatusDenied:
+-        status = UMPermissionStatusDenied;
+-        break;
+-    }
++    #ifdef AppTransparencyFound
++      ATTrackingManagerAuthorizationStatus systemStatus = [ATTrackingManager trackingAuthorizationStatus];
++      switch (systemStatus) {
++        case ATTrackingManagerAuthorizationStatusAuthorized:
++          status = UMPermissionStatusGranted;
++          break;
++        case ATTrackingManagerAuthorizationStatusNotDetermined:
++          status = UMPermissionStatusUndetermined;
++          break;
++        case ATTrackingManagerAuthorizationStatusRestricted:
++        case ATTrackingManagerAuthorizationStatusDenied:
++          status = UMPermissionStatusDenied;
++          break;
++      }
++    #endif
+   } else {
+     status = UMPermissionStatusGranted;
+   }
+@@ -40,11 +47,13 @@ - (NSDictionary *)getPermissions
+ - (void)requestPermissionsWithResolver:(UMPromiseResolveBlock)resolve rejecter:(UMPromiseRejectBlock)reject
+ {
+   if (@available(iOS 14, *)) {
+-    UM_WEAKIFY(self)
+-    [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+-      UM_STRONGIFY(self)
+-      resolve([self getPermissions]);
+-    }];
++    #ifdef AppTransparencyFound
++      UM_WEAKIFY(self)
++      [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
++        UM_STRONGIFY(self)
++        resolve([self getPermissions]);
++      }];
++    #endif
+   } else {
+     resolve([self getPermissions]);
+   }
