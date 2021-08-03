@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "uglify": "uglifyjs --mangle --compress --output ../app/build/out.txt -- ./build/out.js",
+    "uglify": "mkdir -p ../app/build && uglifyjs --mangle --compress --output ../app/build/out.txt -- ./build/out.js",
     "watch:staging": "node ./esbuild.js --env=staging --outfile=../app/build/out.txt --watch",
-    "build:staging": "node ./esbuild.js --env=staging --outfile=./build/out.js --no-watch && yarn uglify",
     "watch:production": "node ./esbuild.js --env=production --outfile=../app/build/out.txt --watch",
-    "build:production": "node ./esbuild.js --env=production --outfile=./build/out.js --no-watch && yarn uglify"
+    "build": "node ./esbuild.js --outfile=./build/out.js --no-watch && yarn uglify"
   },
   "author": "",
   "license": "ISC",
