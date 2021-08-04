@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import Animated, {
   Extrapolate,
   interpolate,
+  interpolateNode,
   sub,
 } from "react-native-reanimated";
 import { useScrollHandler } from "react-native-redash";
@@ -20,7 +21,7 @@ const useCollapsibleHeader = (HeaderHeight: number): Collapsible => {
   const { scrollHandler, y: positionY } = useScrollHandler();
 
   const animatedValues = useMemo(() => {
-    const progress = interpolate(positionY, {
+    const progress = interpolateNode(positionY, {
       inputRange: [0, HeaderHeight],
       outputRange: [0, 1],
       extrapolate: Extrapolate.CLAMP,
