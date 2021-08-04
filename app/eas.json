@@ -1,57 +1,33 @@
 {
-  "builds": {
-    "ios": {
-      "release": {
-        "workflow": "managed",
-        "releaseChannel": "production",
-        "env": {
-          "NODE_ENV": "production"
-        }
-      },
-      "staging": {
-        "workflow": "managed",
-        "releaseChannel": "staging",
-        "distribution": "internal",
-        "env": {
-          "NODE_ENV": "staging"
-        }
-      },
-      "simulator": {
-        "workflow": "managed",
-        "releaseChannel": "staging",
-        "distribution": "simulator",
-        "env": {
-          "NODE_ENV": "staging"
-        }
+  "build": {
+    "release": {
+      "releaseChannel": "production",
+      "distribution": "store",
+      "env": {
+        "NODE_ENV": "production"
       }
     },
-    "android": {
-      "release": {
-        "workflow": "managed",
-        "releaseChannel": "production",
-        "distribution": "store",
-        "buildType": "app-bundle",
-        "env": {
-          "NODE_ENV": "production"
-        }
+    "staging": {
+      "releaseChannel": "staging",
+      "distribution": "internal",
+      "env": {
+        "NODE_ENV": "staging"
       },
-      "staging": {
-        "workflow": "managed",
-        "releaseChannel": "staging",
-        "distribution": "internal",
-        "buildType": "app-bundle",
-        "env": {
-          "NODE_ENV": "staging"
-        }
+      "android": {
+        "buildType": "app-bundle"
+      }
+    },
+    "simulator": {
+      "releaseChannel": "staging",
+      "distribution": "internal",
+      "env": {
+        "NODE_ENV": "staging"
       },
-      "simulator": {
-        "workflow": "managed",
-        "releaseChannel": "staging",
-        "distribution": "internal",
-        "buildType": "apk",
-        "env": {
-          "NODE_ENV": "staging"
-        }
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "simulator": true
       }
     }
   }
