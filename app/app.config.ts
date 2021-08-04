@@ -24,6 +24,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         ...config.android.config,
         googleMobileAdsAppId: process.env.ANDROID_ADS_APPID,
       },
+      googleServicesFile:
+        process.env.NODE_ENV === "staging"
+          ? "./google-services-staging.json"
+          : "./google-services.json",
     },
     extra: {
       appEnv: process.env.APP_ENV,

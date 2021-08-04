@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "369211307311",
+    "project_id": "youblock-production",
+    "storage_bucket": "youblock-production.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369211307311:android:b21b3d5a9f8a220c9c5dda",
+        "android_client_info": {
+          "package_name": "com.youblock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "369211307311-pt3jaqlt77c7nf7c2niojq5235m32rd2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCX1xqWukf8Qlp--SJPsLWfWbwRk_h04Bw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "369211307311-pt3jaqlt77c7nf7c2niojq5235m32rd2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

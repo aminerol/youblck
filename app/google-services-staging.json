@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "519721661437",
+    "project_id": "youblock-44c9c",
+    "storage_bucket": "youblock-44c9c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519721661437:android:fcbf47a0db9335423fdf94",
+        "android_client_info": {
+          "package_name": "com.youblock.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "519721661437-iec72rrld8u2ua281i0ujpp8tdkj76gq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBigWasjmbF83X_qz4RIHPlaHrhUN46YEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "519721661437-iec72rrld8u2ua281i0ujpp8tdkj76gq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "519721661437-a2qcimj61a78svj2udnbclgt1nhlnhp3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.youblock"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
