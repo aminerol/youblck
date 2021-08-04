@@ -6,9 +6,9 @@ require("dotenv").config({
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   return {
-    name: "",
-    slug: "",
     ...config,
+    name: process.env.APP_NAME,
+    slug: process.env.APP_SLUG,
     ios: {
       ...config.ios,
       bundleIdentifier: process.env.BUNDLE_IDENTIFIER,
