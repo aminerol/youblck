@@ -7,6 +7,11 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -17,10 +22,6 @@
       },
       "infoPlist": {
         "NSUserTrackingUsageDescription": "Your data will be used to deliver personalized ads to you"
-      },
-      "splash": {
-        "resizeMode": "cover",
-        "backgroundColor": "#ffffff"
       }
     },
     "android": {
@@ -30,16 +31,6 @@
       "adaptiveIcon": {
         "backgroundColor": "#ffffff",
         "foregroundImage": "./assets/icon.png"
-      },
-      "splash": {
-        "resizeMode": "cover",
-        "backgroundColor": "#ffffff",
-        "mdpi": "assets/splash/mdpi/splash.png",
-        "hdpi": "assets/splash/hdpi/splash.png",
-        "ldpi": "assets/splash/ldpi/splash.png",
-        "xhdpi": "assets/splash/xhdpi/splash.png",
-        "xxhdpi": "assets/splash/xxhdpi/splash.png",
-        "xxxhdpi": "assets/splash/xxxhdpi/splash.png"
       }
     },
     "description": "YouBlock - an app for blocking videos and channels from showing up on youtube app",
