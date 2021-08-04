@@ -30,7 +30,7 @@
       },
       "adaptiveIcon": {
         "backgroundColor": "#ffffff",
-        "foregroundImage": "./assets/icon.png"
+        "foregroundImage": "./assets/icon_foreground.png"
       }
     },
     "description": "YouBlock - an app for blocking videos and channels from showing up on youtube app",
