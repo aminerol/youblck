@@ -13,7 +13,11 @@ export async function initFirebase() {
     }
     await firebase.auth().signInAnonymously();
   } catch (error) {
-    captureException(error, "app");
+    captureException(
+      error,
+      "app",
+      "Failed to initialize/signInAnonymously firebase"
+    );
   }
 }
 
@@ -32,7 +36,7 @@ export async function storeConfig(config: any) {
         { merge: true }
       );
   } catch (error) {
-    captureException(error, "app");
+    captureException(error, "app", "Failed to store config");
   }
 }
 
@@ -47,7 +51,7 @@ export async function storeNotificationToken(notificationToken: string) {
       { merge: true }
     );
   } catch (error) {
-    captureException(error, "app");
+    captureException(error, "app", "Failed to store push notification token");
   }
 }
 
@@ -73,7 +77,11 @@ export async function syncFirestore(
         { merge: true }
       );
   } catch (error) {
-    captureException(error, "app");
+    captureException(
+      error,
+      "app",
+      `Failed to add or remove from ${type} collection`
+    );
   }
 }
 
@@ -81,7 +89,7 @@ export async function getRemoteConfig() {
   try {
     return await firebase.firestore().collection("config").doc("main").get();
   } catch (error) {
-    captureException(error, "app");
+    captureException(error, "app", "Failed to get remote config");
     return undefined;
   }
 }

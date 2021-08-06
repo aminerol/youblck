@@ -2,7 +2,7 @@ import * as Updates from "expo-updates";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { differenceInMinutes } from "date-fns";
 import { useCallback } from "react";
-import { addBreadcrumb, captureException } from "../utils/sentry";
+import { addBreadcrumb, captureException, Severity } from "../utils/sentry";
 
 const LAST_UPDATE_KEY = "LAST_UPDATE";
 const CHECK_UPDATE_INTERVAL_MINUTES = 30;
@@ -28,8 +28,18 @@ export const useCheckUpdates = (): ((
         differenceInMinutes(new Date(), Number(lastUpdate)) >
           CHECK_UPDATE_INTERVAL_MINUTES
       ) {
+        addBreadcrumb({
+          category: "action",
+          message: "Checking for updates",
+          level: Severity.Log,
+        });
         const update = await Updates.checkForUpdateAsync();
         if (update.isAvailable) {
+          addBreadcrumb({
+            category: "action",
+            message: "Downloading the update",
+            level: Severity.Log,
+          });
           await Promise.all([
             AsyncStorage.setItem(LAST_UPDATE_KEY, `${new Date().getTime()}`),
             Updates.fetchUpdateAsync(),
@@ -42,11 +52,7 @@ export const useCheckUpdates = (): ((
         return "TOO_RECENT_CHECK";
       }
     } catch (e) {
-      addBreadcrumb({
-        category: "action",
-        message: "Check for updates",
-      });
-      captureException(e, "app");
+      captureException(e, "app", "Failed updating the app");
       return "UPDATE_ERROR";
     }
   }, []);

@@ -1,6 +1,8 @@
 import * as Sentry from "sentry-expo";
 import { config } from "./config";
 
+export const Severity = Sentry.Native.Severity;
+
 export async function enableSentry() {
   Sentry.init({
     dsn: config.sentryDsn,
@@ -16,8 +18,19 @@ export async function enableSentry() {
   });
 }
 
-export function captureException(payload: any, module: "app" | "core") {
+export function captureException(
+  payload: any,
+  module: "app" | "core",
+  msg?: string
+) {
   if (!__DEV__) {
+    if (msg) {
+      addBreadcrumb({
+        category: "exception",
+        message: msg,
+        level: Severity.Error,
+      });
+    }
     Sentry.Native.captureException(payload, { tags: { module } });
   } else {
     console.log(payload);

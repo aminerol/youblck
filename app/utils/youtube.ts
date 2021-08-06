@@ -50,7 +50,11 @@ async function getChannelInfoInnerAPI(
       } else return Promise.resolve(undefined);
     }
   } catch (error) {
-    captureException(error, "app");
+    captureException(
+      error,
+      "app",
+      `Failed to get channel id from innerTube for ${channelId}`
+    );
     return Promise.resolve(undefined);
   }
 }
@@ -77,7 +81,11 @@ async function getChannelInfoAPI(channelId: string) {
       } else return Promise.resolve(undefined);
     }
   } catch (error) {
-    captureException(error, "app");
+    captureException(
+      error,
+      "app",
+      `Failed to get channel id from API for ${channelId}`
+    );
     return undefined;
   }
 }
