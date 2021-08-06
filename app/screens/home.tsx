@@ -33,7 +33,7 @@ const blockedUrls = [
   "support.google.com",
 ];
 
-export default function Home() {
+function Home() {
   const WebViewEx = Platform.OS === "ios" ? WebView : RefreshWebView;
   const { ref: webView, updateStorage, setYtConfig, ytConfig } = useWebView();
   const [modalVisible, setModalVisible] = useState(false);
@@ -202,6 +202,8 @@ export default function Home() {
     </SafeAreaView>
   );
 }
+
+export default Sentry.Native.withProfiler(Home, { name: "Home" });
 
 const styles = StyleSheet.create({
   container: {

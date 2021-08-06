@@ -8,6 +8,11 @@ export async function enableSentry() {
     debug: __DEV__,
     environment: config.appEnv,
     enableAutoSessionTracking: true,
+    integrations: [
+      new Sentry.Native.ReactNativeTracing({
+        tracingOrigins: ["localhost", /^\//],
+      }),
+    ],
   });
 }
 

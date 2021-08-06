@@ -5,6 +5,8 @@ import SegmentedControlTab from "react-native-segmented-control-tab";
 import { Ionicons } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
 import { isEmpty } from "lodash";
+import * as Sentry from "sentry-expo";
+
 import Slider, {
   SlideMap,
   Slider as SliderType,
@@ -142,4 +144,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Library;
+export default Sentry.Native.withProfiler(Library, { name: "Library" });

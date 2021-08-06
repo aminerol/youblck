@@ -226,7 +226,7 @@ function main() {
     appId: process.env.FIREBASE_APP_ID,
     measurementId: process.env.FIREBASE_MEASUREMENT_ID,
   });
-  firebase.analytics().setCurrentScreen("home");
+  firebase.analytics();
 }
 
 main();
