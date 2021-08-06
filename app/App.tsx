@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { StatusBar, LogBox } from "react-native";
+import * as SplashScreen from "expo-splash-screen";
+
 import { WebViewProvider } from "./context/webview";
 import { StateProvider } from "./utils/storage";
 import Home from "./screens/home";
@@ -13,6 +15,7 @@ LogBox.ignoreLogs(["Setting a timer"]);
 export default function App() {
   useEffect(() => {
     async function init() {
+      await SplashScreen.preventAutoHideAsync();
       await enableSentry();
       setJSExceptionHandler();
       await initFirebase();

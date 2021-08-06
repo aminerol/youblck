@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Modal,
   StyleSheet,
@@ -16,6 +16,7 @@ import url from "url";
 import * as Linking from "expo-linking";
 import { some } from "lodash";
 import * as Sentry from "sentry-expo";
+import * as SplashScreen from "expo-splash-screen";
 
 import { getChannelInfo } from "../utils/youtube";
 import { captureException } from "../utils/sentry";
@@ -26,6 +27,7 @@ import { useLoadAssets } from "../components/assets";
 import Settings from "./Setings";
 import RefreshWebView from "../components/webview";
 import { storeConfig } from "../utils/firebase";
+import { useRef } from "react";
 
 const blockedUrls = [
   "studio.youtube.com",
@@ -38,6 +40,7 @@ function Home() {
   const { ref: webView, updateStorage, setYtConfig, ytConfig } = useWebView();
   const [modalVisible, setModalVisible] = useState(false);
   const [settingsModal, setsettingsModal] = useState(false);
+  const isWebViewReady = useRef(false);
   const { block, unBlock, ready, storage, state } = useStorage();
   const injectedJS = useLoadAssets(require("../build/out.txt"));
 
@@ -153,6 +156,12 @@ function Home() {
               navState.loading
             ) {
               webView.current.goBack();
+            }
+          }}
+          onLoadEnd={async () => {
+            if (!isWebViewReady.current) {
+              await SplashScreen.hideAsync();
+              isWebViewReady.current = true;
             }
           }}
         />
