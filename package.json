@@ -5,9 +5,9 @@
     "app:production": "cd app && yarn start:production && cd ..",
     "app:publish:staging": "cd app && yarn publish:staging && cd ..",
     "app:publish:production": "cd app && yarn publish:production && cd ..",
-    "core:build:staging": "NODE_ENV=staging cd core && yarn build && cd ..",
+    "core:build:staging": "cd core && NODE_ENV=staging yarn build && cd ..",
     "core:watch:staging": "cd core && yarn watch:staging && cd ..",
-    "core:build:production": "NODE_ENV=production cd core && yarn build && cd ..",
+    "core:build:production": "cd core && NODE_ENV=production yarn build && cd ..",
     "core:watch:production": "cd core && yarn watch:production && cd ..",
     "publish:staging": "yarn core:build:staging && yarn app:publish:staging",
     "publish:production": "yarn core:build:production && yarn app:publish:production"
