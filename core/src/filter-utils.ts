@@ -13,8 +13,12 @@ export function removeTrendingTab() {
   document
     .getElementsByTagName("ytm-pivot-bar-renderer")[0]
     .childNodes.forEach((el, index) => {
-      //@ts-ignore
-      if (el.data.pivotIdentifier === "FEtrending") {
+      if (
+        //@ts-ignore
+        el.data.pivotIdentifier === "FEtrending" ||
+        //@ts-ignore
+        el.data.pivotIdentifier === "FEexplore"
+      ) {
         GlobalVars.trendingTab = { item: el, index };
         el.remove();
       }
