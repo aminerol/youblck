@@ -5,11 +5,19 @@
     "app:production": "cd app && yarn start:production && cd ..",
     "app:publish:staging": "cd app && yarn publish:staging && cd ..",
     "app:publish:production": "cd app && yarn publish:production && cd ..",
+    "app:build:android:staging": "cd app && yarn build:staging:android && cd ..",
+    "app:build:android:production": "cd app && yarn build:production:android && cd ..",
+    "app:build:ios:staging": "cd app && yarn build:staging:ios && cd ..",
+    "app:build:ios:production": "cd app && yarn build:production:ios && cd ..",
     "core:build:staging": "cd core && NODE_ENV=staging yarn build && cd ..",
     "core:watch:staging": "cd core && yarn watch:staging && cd ..",
     "core:build:production": "cd core && NODE_ENV=production yarn build && cd ..",
     "core:watch:production": "cd core && yarn watch:production && cd ..",
     "publish:staging": "yarn core:build:staging && yarn app:publish:staging",
-    "publish:production": "yarn core:build:production && yarn app:publish:production"
+    "publish:production": "yarn core:build:production && yarn app:publish:production",
+    "build:android:staging": "yarn core:build:staging && yarn app:build:android:staging",
+    "build:android:production": "yarn core:build:production && yarn app:build:android:production",
+    "build:ios:staging": "yarn core:build:staging && yarn app:build:ios:staging",
+    "build:ios:production": "yarn core:build:production && yarn app:build:ios:production"
   }
 }
