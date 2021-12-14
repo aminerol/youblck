@@ -2,10 +2,7 @@ const yargs = require("yargs/yargs");
 const { hideBin } = require("yargs/helpers");
 const { build } = require("esbuild");
 const path = require("path");
-const argv = yargs(hideBin(process.argv)).default(
-  "env",
-  process.env.NODE_ENV
-).argv;
+const argv = yargs(hideBin(process.argv)).default("env", process.env.ENV).argv;
 
 require("dotenv").config({
   path: path.resolve(__dirname, "../.env." + argv.env),

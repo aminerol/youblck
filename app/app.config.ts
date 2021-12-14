@@ -1,7 +1,7 @@
 import { ExpoConfig, ConfigContext } from "@expo/config";
 import path from "path";
 require("dotenv").config({
-  path: path.resolve(__dirname, "../.env." + process.env.NODE_ENV),
+  path: path.resolve(__dirname, "../.env." + process.env.ENV),
 });
 
 export default ({ config }: ConfigContext): ExpoConfig => {
@@ -25,7 +25,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         googleMobileAdsAppId: process.env.ANDROID_ADS_APPID,
       },
       googleServicesFile:
-        process.env.NODE_ENV === "staging"
+        process.env.ENV === "staging"
           ? "./google-services-staging.json"
           : "./google-services.json",
     },

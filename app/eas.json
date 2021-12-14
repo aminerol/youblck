@@ -4,14 +4,14 @@
       "releaseChannel": "production",
       "distribution": "store",
       "env": {
-        "NODE_ENV": "production"
+        "ENV": "production"
       }
     },
     "staging": {
       "releaseChannel": "staging",
       "distribution": "internal",
       "env": {
-        "NODE_ENV": "staging"
+        "ENV": "staging"
       },
       "android": {
         "buildType": "app-bundle"
@@ -21,7 +21,7 @@
       "releaseChannel": "staging",
       "distribution": "internal",
       "env": {
-        "NODE_ENV": "staging"
+        "ENV": "staging"
       },
       "android": {
         "buildType": "apk"
@@ -30,5 +30,8 @@
         "simulator": true
       }
     }
+  },
+  "cli": {
+    "version": ">= 0.38.3"
   }
 }
